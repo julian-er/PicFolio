@@ -1,0 +1,172 @@
+/*
+   statusbar-overlay sets the background color for the overlay. Black text is the default when the statusbar plugin is not added. When the
+   statusbar plugin is added, it also adds default setting to make the content white via:
+
+       <preference name="StatusBarStyle" value="lightcontent"/>
+
+   Setting the background color to black will allow the default light content (white text/icons) to show on it. The statusbar plugin is included
+   in the config.xml file and will be added by the CLI when you build locally.
+
+   See https://github.com/apache/cordova-plugin-statusbar
+*/
+
+.statusbar-overlay {
+    background: #000000;
+}
+.lsize {
+    font-size: 30px;
+  }
+.lsizet {
+    font-size: 30px;
+  }
+
+.h100{
+    height: 100%;
+}
+.auto {
+    margin: auto;
+    margin-top:auto;
+    margin-bottom: auto;
+}
+
+.md .actions-grid .actions-button {
+    margin: auto;
+}
+
+.ocultar {
+    display: none !important ; 
+}
+
+.h10 {
+    height: 10%;
+}
+
+.h96 {
+    height: 96%;
+}
+
+.bg {
+    background-color: lightgray !important;
+}
+
+.tn{
+   color: #000000 !important;
+}
+.bc{
+    border: 0;
+    background-color: white;
+}
+
+.autotb{
+    margin-top:auto;
+    margin-bottom: auto;
+    margin-left: 1em;
+}
+
+.autotb2{
+    margin-top:auto;
+    margin-bottom: auto;
+}
+.demo-swiper.demo-swiper-auto .swiper-slide {
+    width: 80%;
+    height: 90%;
+    margin-top:auto;
+    margin-bottom: auto;
+  }
+
+.m5{
+    height: 90%;
+    width: 90%;
+    margin-bottom: 5%;
+    margin-top: 5%;
+    margin-right: 5%;
+    margin-left: 5%;
+    padding: 0%;
+}
+
+.nom{
+    margin: 0% !important;
+}
+
+.h20{
+    height: 20%;
+}
+
+.h70 {
+    height: 70%;
+}
+.h60 {
+    height: 60%;
+}
+.h50 {
+    height: 50%;
+}
+
+.h30{
+    height: 30%;
+}
+.h40 {
+    height: 40%;
+}
+
+.nopading{
+    padding: 0% !important;
+}
+
+.bt{
+    background-color: transparent;
+}
+
+.titlee{
+    font-family: 'Oswald', sans-serif !important;
+    font-size: 30px !important;
+}
+
+.description {
+    font-family: 'Oswald', sans-serif;
+}
+
+.bi{
+    background-image: url('../img/add-image.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+}
+
+.bp{
+    background-image: url('../img/photo.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+}
+
+.bo{
+    background-image: url('../img/+image.svg')!important;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+    border: none;
+}
+
+.mb{
+    margin-bottom: 10px;
+}
+
+.contents {
+    display: contents;
+}
+
+.input-clear-button:before {
+    width: 0%!important;
+    height: 0%!important;
+}
+
+
+.dialog-buttons{
+    justify-content: center !important;
+}
+.dialog-button{
+ color: black!important;
+}

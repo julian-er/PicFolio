@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!--meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *"-->
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <!-- Color theme for statusbar -->
+    <meta name="theme-color" content="#2196f3">
+    <!-- Your app title -->
+    <title>Portfolio</title>
+    <!-- Path to Framework7 Library CSS -->
+    <link rel="stylesheet" href="lib/framework7/css/framework7.min.css">
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- iconos -->
+    <link href="https://unpkg.com/ionicons@4.5.10-0/dist/css/ionicons.min.css" rel="stylesheet">
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css?family=Oswald:200,600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Statusbar overlay -->
+        <div class="statusbar"></div>
+    
+        <!-- Your main view, should have "view-main" class -->
+        <div class="view view-main">
+            <!-- Initial Page, "data-name" contains page name -->
+            <div data-name="index" class="page">
+    
+                <!-- Top Navbar -->
+                <div class="navbar color-theme-white no-shadow">
+                    <div class="navbar-inner">
+                            <div class="right">
+                                    <a href="#" class="panel-open text-color-black" data-panel="right">
+                                    <i class="icon text-color-black ion-md-menu lsize"></i>
+                                    </a>
+                                </div>
+                    <div class="title text-color-black">PortfolioApp</div>
+                    </div>
+                </div>
+               
+                <!--Boton Flotante llamo grilla doble-->
+                <div class="fab fab-right-bottom color-white">
+                        <a href="#" class="sizet creacion bo"></a>
+                </div>
+
+
+
+                <!-- Panel desplegable -->
+                <div class="panel panel-right panel-cover h100">
+                    <a href="#" class="h10 display-flex justify-content-center align-content-center bg bc tn panel-close" id="NameSesion"><span class="icon ion-md-person autotb"></span><p class="auto" id="usuarioiniciado">Nombre del Usuario</p></a>
+                    <a href="#" class="h10 display-flex justify-content-center align-content-center bc tn panel-close"><span class="icon ion-md-phone-portrait autotb"></span><p class="auto">Guía de uso</p></a>
+                    <a href="#" class="h10 display-flex justify-content-center align-content-center bc tn panel-close"><span class="icon ion-md-mail autotb"></span><p class="auto">Contacto</p></a>
+                    <a href="#" class="h10 display-flex justify-content-center align-content-center bc tn panel-close"><span class="icon ion-md-information-circle-outline left autotb"></span><p class="auto">información</p></a>
+                    <a href="#" class="h10 display-flex justify-content-center align-content-center bc tn panel-close"><span class="icon ion-md-cloud-download autotb"></span><p class="auto">Descargar fotos de la Nube</p></a>
+                    <a href="#" class="h10 display-flex justify-content-center align-content-center bc tn panel-close"><span class="icon ion-md-cog autotb"></span><p class="auto">Configuración</p></a>
+                    <a href="#" class="h10 display-flex justify-content-center align-content-center bc tn panel-close"><span class="icon ion-md-power autotb"></span><p class="auto">Cerrar Sesión</p></a>
+                </div>
+                <div id='popups'></div>
+
+                <!-- Scrollable page content -->
+                <div class="page-content">
+                    <!-- Swipper -->
+                    <div class="swiper-container swiper-init demo-swiper demo-swiper-auto h100">       
+                        <div class="swiper-wrapper categorias">
+
+                        </div>
+                    </div> 
+                <!--  fin Swipper -->            
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-firestore.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAMEHXF-GfHUpCFDz5IQj4hftm6ulVn0wk",
+    authDomain: "portfolio-fc2ec.firebaseapp.com",
+    databaseURL: "https://portfolio-fc2ec.firebaseio.com",
+    projectId: "portfolio-fc2ec",
+    storageBucket: "",
+    messagingSenderId: "957858746693",
+    appId: "1:957858746693:web:6e51fcb516484ba71eae2c"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
+
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
+    <script type="text/javascript" src="js/my-app.js"></script>
+</body>
+
+</html>
