@@ -472,7 +472,6 @@ $$(document).on('page:init','.page[data-name="index"]', function (e) {
 // Option 2. Using live 'page:init' event handlers for each page
 $$(document).on('page:init', '.page[data-name="about"]', function (e) {
     // Do something here when page with data-name="about" attribute loaded and initialized
-
     console.log(e);
 })
 
