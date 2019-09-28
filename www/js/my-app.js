@@ -27,6 +27,8 @@ var app = new Framework7({
       scrollTopOnTitleClick: true,
     },
     dialog:{
+      title:'PIC folio',
+      buttonCancel:'Cancelar',
       // parametros globales de los dialogos //
     },
     
@@ -132,7 +134,6 @@ function ayuda3(){
   mainView.router.back();
   dialogo();
 };
-
 // crear las tarjetas y portfolio //
 function creartar (){
   //dbuser.collection('categorias').doc() NO EXPLOTES PORFA
@@ -183,8 +184,6 @@ function crearpor(){
     $$(`.por${portfolio}.portadatarjeta`).append(`<img src="${fotospor[0]}" width="80"/>`)
 fotospor=[] ;
   };
-
-
 // Create dynamic Popup
 var dynamicPopup = app.popup.create({
   content: '<div class="popup m5 crearmiporfolio" >'+
@@ -324,13 +323,12 @@ function  selector (x){
 function iniciarsesion (username,password){
     app.dialog.close()
     //cargamos para que piense el 
-    {
       app.dialog.preloader('Verificando');
-    }
     // aca va iniciando
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then( function (){
       storage.setItem('email', username)
+      storage.setItem('password', password)
       dbuser=db.collection("usuarios").doc(storage.getItem('email'))
       dbuser.get() 
       .then (function (doc){
@@ -339,8 +337,7 @@ function iniciarsesion (username,password){
         )
       .then(()=>{
         app.dialog.close();
-        console.log(nombre + apellido);
-        alert('bienvenido'); // le decimos olis 
+        app.dialog.alert('Bienvenido '+ nombre +''+ apellido,'PIC folio'); // le decimos olis 
         $$('#usuarioiniciado').text(nombre+' '+apellido) ;
       })
       }
@@ -350,19 +347,19 @@ function iniciarsesion (username,password){
       app.dialog.close();
       switch (errorCode) {
                   case('auth/wrong-password'):
-                    alert('La contraseña no coincide con el usuario ingresado, por favor verifique el dato ingresado');
+                  app.dialog.alert('La contraseña no coincide con el usuario ingresado, por favor verifique el dato ingresado','Contraseña incorrecta');
                     dialogo()
                   break;
                   case('auth/user-not-found'):
-                    alert('Usuario no encontrado, por favor verifique el dato ingresado');
+                  app.dialog.alert('Usuario no encontrado, por favor verifique el dato ingresado','Usuario no encontrado');
                     dialogo()
                   break;
                   case('auth/invalid-email'):
-                    alert('Email Invalido, por favor verifique el dato ingresado');
+                  app.dialog.alert('Email Invalido, por favor verifique el dato ingresado','Email invalido');
                     dialogo()
                   break;
                   case('auth/user-not-foundThere'):
-                    alert('Usuario no encontrado, por favor verifique los datos ingresados');
+                  app.dialog.alert('Usuario no encontrado, por favor verifique los datos ingresados','Usuario no encontrado');
                     dialogo()
                   break;
                   default:
@@ -371,12 +368,7 @@ function iniciarsesion (username,password){
                         }
     });
   };
-
-
-
-// nuevo inicio de sesion //
-
-
+// nuevo dialogo inicio de sesion //
 function dialogo () {
   app.dialog.create({
     title: '¡Bienvenido a PIC folio!',
@@ -413,7 +405,6 @@ function dialogo () {
 
   }).open();
 };
-
 // registro de mail y contraseña //
 function registrame(){ 
   nuevoemail=$$('#nuevoemail').val()
@@ -442,12 +433,24 @@ function registrame(){
 
   });
 }
-
-
-
+// logout //
+ const logout = () =>{
+  app.dialog.confirm('¿Estás seguro que quieres desloguearte?','Cerrar Sesión', function (){
+    storage.clear();
+    location.reload();
+  });
+ } 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");  
+    // estas logueado ?
+    if (storage.getItem('email') && storage.getItem('password')){
+      iniciarsesion(storage.getItem('email'), storage.getItem('password'))
+    }
+    else{
+    // primero que nada inicia sesion
+      dialogo();
+    }
     // inicia la camara //
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
@@ -457,8 +460,6 @@ $$(document).on('deviceready', function() {
 
 // Option 1. Using one 'page:init' handler for all pages
 $$(document).on('page:init','.page[data-name="index"]', function (e) {
-    // primero que nada inicia sesion
-    dialogo();
     // abrime creacion de cosas
     $$('.creacion').on('click', function () {
       cr.open();
