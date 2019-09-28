@@ -27,6 +27,8 @@ var app = new Framework7({
       scrollTopOnTitleClick: true,
     },
     dialog:{
+      title:'PIC folio',
+      buttonCancel:'Cancelar',
       // parametros globales de los dialogos //
     },
     
@@ -321,9 +323,7 @@ function  selector (x){
 function iniciarsesion (username,password){
     app.dialog.close()
     //cargamos para que piense el 
-    {
       app.dialog.preloader('Verificando');
-    }
     // aca va iniciando
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then( function (){
