@@ -132,7 +132,6 @@ function ayuda3(){
   mainView.router.back();
   dialogo();
 };
-
 // crear las tarjetas y portfolio //
 function creartar (){
   //dbuser.collection('categorias').doc() NO EXPLOTES PORFA
@@ -183,8 +182,6 @@ function crearpor(){
     $$(`.por${portfolio}.portadatarjeta`).append(`<img src="${fotospor[0]}" width="80"/>`)
 fotospor=[] ;
   };
-
-
 // Create dynamic Popup
 var dynamicPopup = app.popup.create({
   content: '<div class="popup m5 crearmiporfolio" >'+
@@ -331,6 +328,7 @@ function iniciarsesion (username,password){
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then( function (){
       storage.setItem('email', username)
+      storage.setItem('password', password)
       dbuser=db.collection("usuarios").doc(storage.getItem('email'))
       dbuser.get() 
       .then (function (doc){
@@ -339,8 +337,7 @@ function iniciarsesion (username,password){
         )
       .then(()=>{
         app.dialog.close();
-        console.log(nombre + apellido);
-        alert('bienvenido'); // le decimos olis 
+        alert('Bienvenido '+ nombre +''+ apellido); // le decimos olis 
         $$('#usuarioiniciado').text(nombre+' '+apellido) ;
       })
       }
@@ -371,12 +368,7 @@ function iniciarsesion (username,password){
                         }
     });
   };
-
-
-
-// nuevo inicio de sesion //
-
-
+// nuevo dialogo inicio de sesion //
 function dialogo () {
   app.dialog.create({
     title: '¡Bienvenido a PIC folio!',
@@ -413,7 +405,6 @@ function dialogo () {
 
   }).open();
 };
-
 // registro de mail y contraseña //
 function registrame(){ 
   nuevoemail=$$('#nuevoemail').val()
@@ -442,12 +433,22 @@ function registrame(){
 
   });
 }
-
-
-
+// logout //
+ const logout = () =>{
+  storage.clear();
+  location.reload();
+ } 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");  
+    // estas logueado ?
+    if (storage.getItem('email') && storage.getItem('password')){
+      iniciarsesion(storage.getItem('email'), storage.getItem('password'))
+    }
+    else{
+    // primero que nada inicia sesion
+      dialogo();
+    }
     // inicia la camara //
     document.addEventListener("deviceready", onDeviceReady, false);
     function onDeviceReady() {
@@ -457,8 +458,8 @@ $$(document).on('deviceready', function() {
 
 // Option 1. Using one 'page:init' handler for all pages
 $$(document).on('page:init','.page[data-name="index"]', function (e) {
-    // primero que nada inicia sesion
-    dialogo();
+
+    
     // abrime creacion de cosas
     $$('.creacion').on('click', function () {
       cr.open();
