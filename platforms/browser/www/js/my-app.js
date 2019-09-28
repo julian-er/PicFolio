@@ -347,19 +347,19 @@ function iniciarsesion (username,password){
       app.dialog.close();
       switch (errorCode) {
                   case('auth/wrong-password'):
-                    alert('La contraseña no coincide con el usuario ingresado, por favor verifique el dato ingresado');
+                  app.dialog.alert('La contraseña no coincide con el usuario ingresado, por favor verifique el dato ingresado','Contraseña incorrecta');
                     dialogo()
                   break;
                   case('auth/user-not-found'):
-                    alert('Usuario no encontrado, por favor verifique el dato ingresado');
+                  app.dialog.alert('Usuario no encontrado, por favor verifique el dato ingresado','Usuario no encontrado');
                     dialogo()
                   break;
                   case('auth/invalid-email'):
-                    alert('Email Invalido, por favor verifique el dato ingresado');
+                  app.dialog.alert('Email Invalido, por favor verifique el dato ingresado','Email invalido');
                     dialogo()
                   break;
                   case('auth/user-not-foundThere'):
-                    alert('Usuario no encontrado, por favor verifique los datos ingresados');
+                  app.dialog.alert('Usuario no encontrado, por favor verifique los datos ingresados','Usuario no encontrado');
                     dialogo()
                   break;
                   default:
@@ -458,8 +458,6 @@ $$(document).on('deviceready', function() {
 
 // Option 1. Using one 'page:init' handler for all pages
 $$(document).on('page:init','.page[data-name="index"]', function (e) {
-
-    
     // abrime creacion de cosas
     $$('.creacion').on('click', function () {
       cr.open();
@@ -473,7 +471,6 @@ $$(document).on('page:init','.page[data-name="index"]', function (e) {
 // Option 2. Using live 'page:init' event handlers for each page
 $$(document).on('page:init', '.page[data-name="about"]', function (e) {
     // Do something here when page with data-name="about" attribute loaded and initialized
-
     console.log(e);
 })
 
