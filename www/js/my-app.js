@@ -76,14 +76,14 @@ dbuser.collection('categorias').doc(`${idnuevo}`).set({'titulo':''});
           <!-- LISTAS ACOMODABLES -->
                  
           <div class="list media-list sortable col-100">
-                <ul id="b${idnuevo}">
-                <li class="row">
+          <li class="row">
                 <span class="col-70 auto">Reordenar los portfolios</span>
                 <label class="toggle toggle-init color-black  auto">
                   <input type="checkbox" class="sortable-toggle col-70">
                   <span class="toggle-icon"></span>
                 </label>
               </li>  
+                <ul id="b${idnuevo}">               
                 </ul>
           </div>
           <!-- LISTAS ACOMODABLES -->
@@ -136,7 +136,9 @@ function ayuda3(){
 };
 // crear las tarjetas y portfolio //
 function creartar (){
-  //dbuser.collection('categorias').doc() NO EXPLOTES PORFA
+// var ubicacion = ($$('#desplegacat').val()).slice(2)
+// dbuser.collection('categorias').doc(ubicacion).collection('portfolios').doc(portfolio).set({'titulo': 'hola'});
+
   $$(`${$$('#desplegacat').val()}`).append(`
   <li id="${portfolio}" >
        <div class="item-content" >
@@ -315,7 +317,7 @@ function createNewFileEntry(imgUri) {
 // funciones para recorrer cosas dentro de la app //
 function  selector (x){
   for (var i=0; i<x.length; i++){
-    var valor=$$(`#t${x[i]}`).val();
+    var valor=$$(`#t${x[i]}`).val(); // esto me carga el titulo de la categoria //
     var cuerpo=`#b${x[i]}` // esto me carga el id de el cuerpo a usar en el valor del selector //
     $$("#desplegacat").append(`<option value="${cuerpo}">${valor}</option>`)
 };}
