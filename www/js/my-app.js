@@ -337,7 +337,7 @@ function iniciarsesion (username,password){
         )
       .then(()=>{
         app.dialog.close();
-        alert('Bienvenido '+ nombre +''+ apellido); // le decimos olis 
+        app.dialog.alert('Bienvenido '+ nombre +''+ apellido,'PIC folio'); // le decimos olis 
         $$('#usuarioiniciado').text(nombre+' '+apellido) ;
       })
       }
@@ -435,8 +435,10 @@ function registrame(){
 }
 // logout //
  const logout = () =>{
-  storage.clear();
-  location.reload();
+  app.dialog.confirm('¿Estás seguro que quieres desloguearte?','Cerrar Sesión', function (){
+    storage.clear();
+    location.reload();
+  });
  } 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
