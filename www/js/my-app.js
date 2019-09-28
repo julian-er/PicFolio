@@ -82,7 +82,7 @@ dbuser.collection('categorias').doc(`${idnuevo}`).set({'titulo':''});
                   <input type="checkbox" class="sortable-toggle col-70">
                   <span class="toggle-icon"></span>
                 </label>
-              </li>  
+          </li>  
                 <ul id="b${idnuevo}">               
                 </ul>
           </div>
@@ -339,7 +339,7 @@ function iniciarsesion (username,password){
         )
       .then(()=>{
         app.dialog.close();
-        app.dialog.alert('Bienvenido '+ nombre +''+ apellido,'PIC folio'); // le decimos olis 
+        app.dialog.alert('Bienvenido '+ nombre +' '+ apellido,'PIC folio'); // le decimos olis 
         $$('#usuarioiniciado').text(nombre+' '+apellido) ;
       })
       }
