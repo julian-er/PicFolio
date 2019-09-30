@@ -60,7 +60,24 @@
                     <a href="#" class="h10 display-flex justify-content-center align-content-center bc tn panel-close" onClick="logout()"><span class="icon ion-md-power autotb"></span><p class="auto">Cerrar Sesión</p></a>
                 </div>
 
-                <div id='popups'></div>
+                <div id='porfolios'>
+                   <div class="popup por" id="p${portfolio}">
+                        <div class=" row h96 nom page-content">
+                          <div class="row h30">
+                              <div class="col-100 h50 display-flex justify-content-center align-content-center block no-margin">
+                                  <input type="text"  placeholder="TÍTULO" class="auto text-align-left col-100 h100 titlee required" maxlength="17" value="" ></input>
+                                </div>
+                                <div class="col-100 h30 block no-margin">
+                                  <textarea class="col-100 h100 description" placeholder="Descripción" value="" ></textarea>
+                              </div>
+                           </div> <!-- cierro la altura 30 -->
+                           <div class="row h100 col-100 contents auto prepre${portfolio}">
+                           <!-- aca se van a agregar las fotos nuevas -->
+                           </div>
+
+                        </div> <!--cierro page content-->  
+                      </div> 
+                </div>
 
                 <!-- Scrollable page content -->
                 <div class="page-content">

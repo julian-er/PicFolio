@@ -51,7 +51,7 @@ var mySwiper = new Swiper('.swiper-container', {
           onClick: function () {
 
 // aca creo las nuevas categorias
-var idnuevo=Date.now()
+var idnuevo=Date.now();
 dbuser.collection('categorias').doc(`${idnuevo}`).set({'titulo':''});
 
   $$(".swiper-wrapper.categorias").append(`
@@ -126,8 +126,8 @@ function ayuda3(){
 };
 // crear las tarjetas y portfolio //
 function creartar (){
-// var ubicacion = ($$('#desplegacat').val()).slice(2)
-// dbuser.collection('categorias').doc(ubicacion).collection('portfolios').doc(portfolio).set({'titulo': 'hola'});
+var ubicacion = (($$('#desplegacat').val()).slice(2));
+dbuser.collection('categorias').doc(ubicacion).collection('portfolios').doc(`${portfolio}`).set({'titulo': `${$$('#titupop').val()}` , 'descripcion' : `${$$('#descpop').val()}`, 'url': fotospor})
 
   $$(`${$$('#desplegacat').val()}`).append(`
   <li id="${portfolio}" >
@@ -136,7 +136,7 @@ function creartar (){
          <div class="item-inner">
            <div class="item-title-row">
              <div class="item-title">${$$('#titupop').val()}</div>
-             <div class="item-after button popup-open" data-popup="#p${portfolio}" >ver</div>
+             <div class="item-after button popup-open" data-popup="porfolios">ver</div>
            </div>
            <div class="item-text">${$$('#descpop').val()}</div>
          </div>
@@ -144,22 +144,9 @@ function creartar (){
        <div class="sortable-handler"></div>
      </li>
   `)
-  $$('body').append(`         <div class="popup por" id="p${portfolio}">
-                                <div class=" row h96 nom page-content">
-                                  <div class="row h30">
-                                      <div class="col-100 h50 display-flex justify-content-center align-content-center block no-margin">
-                                          <input type="text"  placeholder="TÍTULO" class="auto text-align-left col-100 h100 titlee required" maxlength="17" value="${$$('#titupop').val()}" ></input>
-                                        </div>
-                                        <div class="col-100 h30 block no-margin">
-                                          <textarea class="col-100 h100 description" placeholder="Descripción" value="${$$('#descpop').text()}" ></textarea>
-                                      </div>
-                                   </div> <!-- cierro la altura 30 -->
-                                   <div class="row h100 col-100 contents auto prepre${portfolio}">
-                                   <!-- aca se van a agregar las fotos nuevas -->
-                                   </div>
-
-                                </div> <!--cierro page content-->  
-                              </div>  `)
+  $$('li').on('click', function(){
+    console.log(this.id)
+  })
   };
 function crearpor(){
   //esto va en la carpeta con el id de idnuevo
