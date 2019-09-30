@@ -1,9 +1,7 @@
 // Initialize app
 var myApp = new Framework7();
-  
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
-
 var app = new Framework7({
     // App root element
     root: '#app',
@@ -31,14 +29,8 @@ var app = new Framework7({
       buttonCancel:'Cancelar',
       // parametros globales de los dialogos //
     },
-    
-
-    
-    // ... other parameters
   });
-
 var mainView = app.views.create('.view-main');
-
 
 var mySwiper = new Swiper('.swiper-container', {
   spaceBetween: 10,
@@ -46,7 +38,6 @@ var mySwiper = new Swiper('.swiper-container', {
   slidesPerView:'auto',
   centeredSlides: true,
   observer: true,
-
 });
 
   //- Grillado de acciones
@@ -110,6 +101,7 @@ categ.push(idnuevo)
       ]
     ]
   });
+//variables globales//  
 var db = firebase.firestore(); // para cargar en BD
 var port = []; // guardo los id de los portfolios
 var categ = []; // la recorro con el click de popup 
@@ -117,8 +109,6 @@ var portfolio; // nno me acuerrdo que guardo
 var fotospor=[]; // el array de url
 var storage=window.localStorage; // para achicar ruta
 var dbuser; // me meto en la ruta de la BD del usuario 
-
-
 // funcion de ayuda para generar las paginas y abrir el popup
 function ayuda () {
             // Abrime el dynamic popup
@@ -311,9 +301,6 @@ function createNewFileEntry(imgUri) {
 
   }, onErrorResolveUrl);
 }
-// funciones de la cámara // 
-
-
 // funciones para recorrer cosas dentro de la app //
 function  selector (x){
   for (var i=0; i<x.length; i++){
