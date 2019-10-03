@@ -128,41 +128,47 @@ function ayuda3(){
 function creartar (){
 var ubicacion = (($$('#desplegacat').val()).slice(2));
 dbuser.collection('categorias').doc(ubicacion).collection('portfolios').doc(`${portfolio}`).set({'titulo': `${$$('#titupop').val()}` , 'descripcion' : `${$$('#descpop').val()}`, 'url': fotospor})
-
-  $$(`${$$('#desplegacat').val()}`).append(`
+  
+$$(`${$$('#desplegacat').val()}`).append(`
   <li id="${portfolio}" >
        <div class="item-content" >
-         <div class="item-media por${portfolio} portadatarjeta"></div>
+         <div class="item-media portadatarjeta"><img src="${fotospor[0]}" width="80"/></div>
          <div class="item-inner">
            <div class="item-title-row">
              <div class="item-title">${$$('#titupop').val()}</div>
-             <div class="item-after button popup-open" data-popup="porfolios">ver</div>
+             <div class="item-after button popup-open" data-popup="#porfolios">ver</div>
            </div>
            <div class="item-text">${$$('#descpop').val()}</div>
          </div>
        </div>
        <div class="sortable-handler"></div>
-     </li>
-  `)
-  $$('li').on('click', function(){
+  </li>
+  `);
+
+fotospor=[] ;
+
+$$('li').on('click', function(){
     console.log(this.id)
+    idmomentaneo=this.id
+    dbuser.collection('categorias').doc(ubicacion).collection('portfolios').doc(`${this.id}`).get()
+    .then (function (doc){
+      titulo=doc.data().titulo,
+      descripcion=doc.data().descripcion,
+      fotos=doc.data().url}     
+      )
+    .then(()=>{
+      $$('#descripcionpopup').val(descripcion)
+      $$('#titulopopup').val(titulo)
+      for (i=0 ; i<fotos.length ; i++){
+        $$(`#prepreportfolio`).append(`  
+        <div class="col-50 auto"><img src="${fotos[i]}" class="col-100"/></div>
+        `)
+      }
+    })
+
   })
   };
-function crearpor(){
-  //esto va en la carpeta con el id de idnuevo
-  //mando a guardar pportfolio como ID en portfolio
-  //adentro de pportfolio guardo lo que sigue
-  //mando a guardar titulo ${$$('#titupop').val()}
-  //mando a guardar descripcion ${$$('#descpop').text()}
-  //mando a guardar fotospor en url
-    for (i=0 ; i<fotospor.length ; i++){
-      $$(`.prepre${portfolio}`).append(`  
-      <div class="col-50 auto"><img src="${fotospor[i]}" class="col-100"/></div>
-      `)
-    }
-    $$(`.por${portfolio}.portadatarjeta`).append(`<img src="${fotospor[0]}" width="80"/>`)
-fotospor=[] ;
-  };
+
 // Create dynamic Popup
 var dynamicPopup = app.popup.create({
   content: '<div class="popup m5 crearmiporfolio" >'+
@@ -213,10 +219,10 @@ var dynamicPopup = app.popup.create({
 /*BOTON BACK ANDROID*/ /** ahora ademas maneja los paneles */
 document.addEventListener("backbutton", onBackKeyDown, false); 
 function onBackKeyDown() { 
-                            if  ($$('.panel-right').hasClass('panel-active')||$$('.actions-backdrop').hasClass('backdrop-in')||$$('.popup.por').hasClass('modal-in')){ 
+                            if  ($$('.panel-right').hasClass('panel-active')||$$('.actions-backdrop').hasClass('backdrop-in')){ 
                                   app.panel.close(),
-                                  app.actions.close(),
-                                  app.popup.close() 
+                                  app.actions.close()
+                                  
                                 }
                             else if ($$('.popup.crearmiporfolio').hasClass('modal-in')) {
                               navigator.notification.confirm(
@@ -231,6 +237,10 @@ function onBackKeyDown() {
                                   }
                                 }
                             }
+                             else if($$('.popup.por').hasClass('modal-in')){
+                              app.popup.close(), 
+                              $$('#prepreportfolio').empty()
+                             }
                              else {  switch (app.views.main.router.url) {
                                                                           case ( "/about/" ) :
                                                                                 
@@ -312,6 +322,12 @@ function iniciarsesion (username,password){
         apellido=doc.data().apellido}     
         )
       .then(()=>{
+        
+//.then(function(querySnapshot) {
+// querySnapshot.forEach(function(doc) {
+//   console.log("data:" + doc.data().name);
+//   });
+//   })
         app.dialog.close();
         app.dialog.alert('Bienvenido '+ nombre +' '+ apellido,'PIC folio'); // le decimos olis 
         $$('#usuarioiniciado').text(nombre+' '+apellido) ;
@@ -390,7 +406,7 @@ function registrame(){
   firebase.auth().createUserWithEmailAndPassword(nuevoemail, nuevopass)
   .then(function (){
     db.collection("usuarios").doc(`${nuevoemail}`).set({'nombre':nombre,'apellido': apellido});
-    app.dialog.alert('Ya estas formando parte de la comunidad! <br> Gracias ' + nombre + ' ' + apellido + '<br> Inicia sesión para continuar.', 'Registro Exitoso', function(){ayuda3();});
+    app.dialog.alert('Ya estas formando parte de la comunidad! <br> Gracias ' + nombre + ' ' + apellido , 'Registro Exitoso', function(){ayuda3();});
   })
   .catch(function(error) {
   // Handle Errors here.
