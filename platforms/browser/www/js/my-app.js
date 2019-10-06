@@ -117,8 +117,7 @@ function ayuda () {
             selector(categ);          
 };
 function ayuda2(){
-  creartar (); //creo la tarjeta 
-  crearpor(); // creo el pop
+  (fotospor.length>0)?(creartar (),crearpor()):app.dialog.alert('El portfolio no puede estár vacío, por favor coloca imágenes en el','El portfolio no se creará'), dynamicPopup.open();
 };
 function ayuda3(){
   mainView.router.back();
@@ -148,8 +147,6 @@ $$(`${$$('#desplegacat').val()}`).append(`
 fotospor=[] ;
 
 $$('li').on('click', function(){
-    console.log(this.id)
-    idmomentaneo=this.id
     dbuser.collection('categorias').doc(ubicacion).collection('portfolios').doc(`${this.id}`).get()
     .then (function (doc){
       titulo=doc.data().titulo,
@@ -157,7 +154,7 @@ $$('li').on('click', function(){
       fotos=doc.data().url}     
       )
     .then(()=>{
-      $$('#descripcionpopup').val(descripcion)
+      $$('#descripcionpopup').text(descripcion)
       $$('#titulopopup').val(titulo)
       for (i=0 ; i<fotos.length ; i++){
         $$(`#prepreportfolio`).append(`  
@@ -233,7 +230,9 @@ function onBackKeyDown() {
                               );
                               function onConfirm(buttonIndex) {
                                   if (buttonIndex == 1) {
-                                    app.popup.close()  
+                                    app.popup.close();
+                                    $$('#prepreportfolio').empty();
+                                    fotospor=[];
                                   }
                                 }
                             }
@@ -243,7 +242,6 @@ function onBackKeyDown() {
                              }
                              else {  switch (app.views.main.router.url) {
                                                                           case ( "/about/" ) :
-                                                                                
                                                                                   ayuda3();
                                                                           break;
                                                                           default :
@@ -321,17 +319,31 @@ function iniciarsesion (username,password){
         nombre=doc.data().nombre,
         apellido=doc.data().apellido}     
         )
-      .then(()=>{
-        
-//.then(function(querySnapshot) {
-// querySnapshot.forEach(function(doc) {
-//   console.log("data:" + doc.data().name);
-//   });
-//   })
-        app.dialog.close();
-        app.dialog.alert('Bienvenido '+ nombre +' '+ apellido,'PIC folio'); // le decimos olis 
-        $$('#usuarioiniciado').text(nombre+' '+apellido) ;
-      })
+          .then(()=>{
+            dbuser.collection('categorias').get()
+            .then(function(querySnapshot) {
+              querySnapshot.forEach(function(doc) {
+                title = doc.data().titulo
+                categ.push(doc.id)
+                //categori= doc.id
+                createCategories(doc.id,title);
+              });
+
+              for (let i = 0 ; i<categ.length ; i++)
+              dbuser.collection('categorias').doc(`${categ[i]}`).collection('portfolios').get()
+              .then(function(querySnapshot){
+               querySnapshot.forEach(function(doc) {
+                 title = doc.data().titulo
+                 desc = doc.data().descripcion
+                 createCard(categ[i],doc.id,title,desc);
+               });
+// aca, por cada id tengo que generar una categoria, dentro de la categoria tengo que poner el titulo y las tarjetas.
+             });
+                })
+            app.dialog.close();
+            app.dialog.alert('Bienvenido '+ nombre +' '+ apellido,'PIC folio'); // le decimos olis 
+            $$('#usuarioiniciado').text(nombre+' '+apellido) ;
+          })
       }
     )
     .catch(function(error) {
@@ -470,3 +482,79 @@ $$(document).on('page:init', '.page[data-name="about"]', function (e) {
 
 
 
+const createCategories = (x,y) => {
+  $$(".swiper-wrapper.categorias").append(`
+  <!-- tu append va de aca -->
+  <div class="page-content swiper-slide display-flex justify-content-center align-content-center elevation-6 elevation-hover-24 elevation-pressed-12 elevation-transition nopading atributo" id="${x}">
+      <div class="row"> 
+                <div class="row col-100 h20">
+                      <div class="col-100 h100 display-flex justify-content-center align-content-center">
+                              <input type="text" placeholder="Categoría" id="t${x}" class="auto text-align-center col-100 h100 titlee required" value="${y}"></input>
+                      </div>
+                </div>
+          <div class="row col-100 contents" >   
+          <!-- LISTAS ACOMODABLES -->
+          <div class="list media-list sortable col-100">
+          <li class="row">
+                <span class="col-70 auto">Reordenar los portfolios</span>
+                <label class="toggle toggle-init color-black  auto">
+                  <input type="checkbox" class="sortable-toggle col-70">
+                  <span class="toggle-icon"></span>
+                </label>
+          </li>  
+                <ul id="b${x}">               
+                </ul>
+          </div>
+          <!-- LISTAS ACOMODABLES -->
+          </div>
+  </div>  
+<!-- hasta aca-->  
+`);
+}
+
+const createCard = (x,y,titulo,descripcion) => {
+// desplega cat tiene que ser el ID del portfolio + #b
+
+  $$((`#b${x}`)).append(`
+  <li id="${y}" >
+       <div class="item-content" >
+         <div class="item-media portadatarjeta"><img src="${fotospor[0]}" width="80"/></div>
+         <div class="item-inner">
+           <div class="item-title-row">
+             <div class="item-title">${titulo}</div>
+             <div class="item-after button popup-open" data-popup="#porfolios" onClick='trae(this)'>ver</div>
+           </div>
+           <div class="item-text">${descripcion}</div>
+         </div>
+       </div>
+       <div class="sortable-handler"></div>
+  </li>
+  `);
+
+$$('li').on('click', function(){
+    idlocal = this
+    dbuser.collection('categorias').doc(`${x}`).collection('portfolios').doc(`${idlocal.id}`).get()
+    .then (function (doc){
+      titulo=doc.data().titulo;
+      descripcion=doc.data().descripcion;
+      fotos=doc.data().url;
+    console.log(fotos)}     
+      )
+    .then(()=>{
+      $$('#descripcionpopup').text(descripcion)
+      $$('#titulopopup').val(titulo)
+      for (i=0 ; i<fotos.length ; i++){
+      $$(`#prepreportfolio`).append(`  
+        <div class="col-50 auto"><img src="${fotos[i]}" class="col-100"/></div>
+        `)
+      }
+    })
+
+  });
+
+}  
+  
+
+
+
+// MODIFICAR FOTOS POR LOGO! //
