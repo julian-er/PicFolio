@@ -335,7 +335,8 @@ function iniciarsesion (username,password){
                querySnapshot.forEach(function(doc) {
                  title = doc.data().titulo
                  desc = doc.data().descripcion
-                 createCard(categ[i],doc.id,title,desc);
+                 url = doc.data().url
+                 createCard(categ[i],doc.id,title,desc,url);
                });
 // aca, por cada id tengo que generar una categoria, dentro de la categoria tengo que poner el titulo y las tarjetas.
              });
@@ -512,17 +513,17 @@ const createCategories = (x,y) => {
 `);
 }
 
-const createCard = (x,y,titulo,descripcion) => {
+const createCard = (x,y,titulo,descripcion,url) => {
 // desplega cat tiene que ser el ID del portfolio + #b
 
   $$((`#b${x}`)).append(`
   <li id="${y}" >
        <div class="item-content" >
-         <div class="item-media portadatarjeta"><img src="${fotospor[0]}" width="80"/></div>
+         <div class="item-media portadatarjeta"><img src="${url[0]}" width="80"/></div>
          <div class="item-inner">
            <div class="item-title-row">
              <div class="item-title">${titulo}</div>
-             <div class="item-after button popup-open" data-popup="#porfolios" onClick='trae(this)'>ver</div>
+             <div class="item-after button popup-open" data-popup="#porfolios">ver</div>
            </div>
            <div class="item-text">${descripcion}</div>
          </div>
@@ -532,29 +533,41 @@ const createCard = (x,y,titulo,descripcion) => {
   `);
 
 $$('li').on('click', function(){
-    idlocal = this
+
+    idlocal = this;
+    
     dbuser.collection('categorias').doc(`${x}`).collection('portfolios').doc(`${idlocal.id}`).get()
     .then (function (doc){
       titulo=doc.data().titulo;
       descripcion=doc.data().descripcion;
-      fotos=doc.data().url;
-    console.log(fotos)}     
-      )
-    .then(()=>{
-      $$('#descripcionpopup').text(descripcion)
-      $$('#titulopopup').val(titulo)
-      for (i=0 ; i<fotos.length ; i++){
+      fotos = doc.data().url;
+    console.log(fotos);
+    $$('#descripcionpopup').text(descripcion);
+    $$('#titulopopup').val(titulo);  
+    for (i=0 ; i<fotos.length ; i++){
       $$(`#prepreportfolio`).append(`  
         <div class="col-50 auto"><img src="${fotos[i]}" class="col-100"/></div>
         `)
-      }
+        
+    }   
     })
-
   });
 
-}  
-  
+}
 
+// var fotos = []
+// var photos = fotos 
+// var myPhotoBrowserDark = app.photoBrowser.create({
+//   photos : [],
+//   theme: 'dark',
+// });
 
+// $$('.categoria').on('click', function (){
+//   console.log(this.id)
+// })
+
+$$('.pb-popup-dark').on('click', function () {
+  myPhotoBrowserDark.open();
+});
 
 // MODIFICAR FOTOS POR LOGO! //
