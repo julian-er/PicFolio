@@ -102,6 +102,7 @@ categ.push(idnuevo)
     ]
   });
 //variables globales//  
+var myPhotoBrowserPage // galeria 
 var db = firebase.firestore(); // para cargar en BD
 var port = []; // guardo los id de los portfolios
 var categ = []; // la recorro con el click de popup 
@@ -117,7 +118,7 @@ function ayuda () {
             selector(categ);          
 };
 function ayuda2(){
-  (fotospor.length>0)?(creartar (),crearpor()):app.dialog.alert('El portfolio no puede estár vacío, por favor coloca imágenes en el','El portfolio no se creará'), dynamicPopup.open();
+  (fotospor.length>0)?(creartar ()): (app.dialog.alert('El portfolio no puede estár vacío, por favor coloca imágenes en el','El portfolio no se creará'), dynamicPopup.open());
 };
 function ayuda3(){
   mainView.router.back();
@@ -145,25 +146,6 @@ $$(`${$$('#desplegacat').val()}`).append(`
   `);
 
 fotospor=[] ;
-
-$$('li').on('click', function(){
-    dbuser.collection('categorias').doc(ubicacion).collection('portfolios').doc(`${this.id}`).get()
-    .then (function (doc){
-      titulo=doc.data().titulo,
-      descripcion=doc.data().descripcion,
-      fotos=doc.data().url}     
-      )
-    .then(()=>{
-      $$('#descripcionpopup').text(descripcion)
-      $$('#titulopopup').val(titulo)
-      for (i=0 ; i<fotos.length ; i++){
-        $$(`#prepreportfolio`).append(`  
-        <div class="col-50 auto"><img src="${fotos[i]}" class="col-100"/></div>
-        `)
-      }
-    })
-
-  })
   };
 
 // Create dynamic Popup
@@ -213,6 +195,45 @@ var dynamicPopup = app.popup.create({
               },
             }
                       });
+
+// click evento 
+document.addEventListener('click',function(obj){
+  var fotos = []
+  if (obj.path[0].innerText == 'VER'){
+  
+    dbuser.collection('categorias').doc(`${obj.path[9].id}`).collection('portfolios').doc(`${obj.path[4].id}`).get()
+    .then (function (doc){
+      titulo=doc.data().titulo,
+      descripcion=doc.data().descripcion,
+      fotos=doc.data().url}     
+      )
+    .then(()=>{
+      $$('#descripcionpopup').text(descripcion)
+      $$('#titulopopup').val(titulo)
+      for (i=0 ; i<fotos.length ; i++){
+        $$(`#prepreportfolio`).append(`  
+        <div class="col-50 auto"><img src="${fotos[i]}" class="col-100"/></div>
+        `)
+      }
+      myPhotoBrowserPage = app.photoBrowser.create({
+        photos : fotos,
+        type: 'page',
+        theme: 'dark',
+      });
+      
+    })
+  } 
+ 
+
+})
+// Cambio de nombre
+document.addEventListener('blur',function(obj){
+  //if (obj.path[0].innerText == 'VER'){}
+  console.log(obj.path[0])
+})
+
+
+
 /*BOTON BACK ANDROID*/ /** ahora ademas maneja los paneles */
 document.addEventListener("backbutton", onBackKeyDown, false); 
 function onBackKeyDown() { 
@@ -532,42 +553,14 @@ const createCard = (x,y,titulo,descripcion,url) => {
   </li>
   `);
 
-$$('li').on('click', function(){
-
-    idlocal = this;
-    
-    dbuser.collection('categorias').doc(`${x}`).collection('portfolios').doc(`${idlocal.id}`).get()
-    .then (function (doc){
-      titulo=doc.data().titulo;
-      descripcion=doc.data().descripcion;
-      fotos = doc.data().url;
-    console.log(fotos);
-    $$('#descripcionpopup').text(descripcion);
-    $$('#titulopopup').val(titulo);  
-    for (i=0 ; i<fotos.length ; i++){
-      $$(`#prepreportfolio`).append(`  
-        <div class="col-50 auto"><img src="${fotos[i]}" class="col-100"/></div>
-        `)
-        
-    }   
-    })
-  });
-
 }
 
-// var fotos = []
-// var photos = fotos 
-// var myPhotoBrowserDark = app.photoBrowser.create({
-//   photos : [],
-//   theme: 'dark',
-// });
 
 // $$('.categoria').on('click', function (){
 //   console.log(this.id)
 // })
-
-$$('.pb-popup-dark').on('click', function () {
-  myPhotoBrowserDark.open();
+$$('.pb-page').on('click', function () {
+  myPhotoBrowserPage.open();
 });
 
 // MODIFICAR FOTOS POR LOGO! //
