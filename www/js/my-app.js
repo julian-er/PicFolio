@@ -1,9 +1,7 @@
 // Initialize app
 var myApp = new Framework7();
-  
 // If we need to use custom DOM library, let's save it to $$ variable:
 var $$ = Dom7;
-
 var app = new Framework7({
     // App root element
     root: '#app',
@@ -31,14 +29,8 @@ var app = new Framework7({
       buttonCancel:'Cancelar',
       // parametros globales de los dialogos //
     },
-    
-
-    
-    // ... other parameters
   });
-
 var mainView = app.views.create('.view-main');
-
 
 var mySwiper = new Swiper('.swiper-container', {
   spaceBetween: 10,
@@ -46,7 +38,6 @@ var mySwiper = new Swiper('.swiper-container', {
   slidesPerView:'auto',
   centeredSlides: true,
   observer: true,
-
 });
 
   //- Grillado de acciones
@@ -60,7 +51,7 @@ var mySwiper = new Swiper('.swiper-container', {
           onClick: function () {
 
 // aca creo las nuevas categorias
-var idnuevo=Date.now()
+var idnuevo=Date.now();
 dbuser.collection('categorias').doc(`${idnuevo}`).set({'titulo':''});
 
   $$(".swiper-wrapper.categorias").append(`
@@ -76,14 +67,14 @@ dbuser.collection('categorias').doc(`${idnuevo}`).set({'titulo':''});
           <!-- LISTAS ACOMODABLES -->
                  
           <div class="list media-list sortable col-100">
-                <ul id="b${idnuevo}">
-                <li class="row">
+          <li class="row">
                 <span class="col-70 auto">Reordenar los portfolios</span>
                 <label class="toggle toggle-init color-black  auto">
                   <input type="checkbox" class="sortable-toggle col-70">
                   <span class="toggle-icon"></span>
                 </label>
-              </li>  
+          </li>  
+                <ul id="b${idnuevo}">               
                 </ul>
           </div>
           <!-- LISTAS ACOMODABLES -->
@@ -110,6 +101,8 @@ categ.push(idnuevo)
       ]
     ]
   });
+//variables globales//  
+var myPhotoBrowserPage // galeria 
 var db = firebase.firestore(); // para cargar en BD
 var port = []; // guardo los id de los portfolios
 var categ = []; // la recorro con el click de popup 
@@ -117,8 +110,6 @@ var portfolio; // nno me acuerrdo que guardo
 var fotospor=[]; // el array de url
 var storage=window.localStorage; // para achicar ruta
 var dbuser; // me meto en la ruta de la BD del usuario 
-
-
 // funcion de ayuda para generar las paginas y abrir el popup
 function ayuda () {
             // Abrime el dynamic popup
@@ -127,8 +118,7 @@ function ayuda () {
             selector(categ);          
 };
 function ayuda2(){
-  creartar (); //creo la tarjeta 
-  crearpor(); // creo el pop
+  (fotospor.length>0)?(creartar ()): (app.dialog.alert('El portfolio no puede estár vacío, por favor coloca imágenes en el','El portfolio no se creará'), dynamicPopup.open());
 };
 function ayuda3(){
   mainView.router.back();
@@ -136,54 +126,28 @@ function ayuda3(){
 };
 // crear las tarjetas y portfolio //
 function creartar (){
-  //dbuser.collection('categorias').doc() NO EXPLOTES PORFA
-  $$(`${$$('#desplegacat').val()}`).append(`
+var ubicacion = (($$('#desplegacat').val()).slice(2));
+dbuser.collection('categorias').doc(ubicacion).collection('portfolios').doc(`${portfolio}`).set({'titulo': `${$$('#titupop').val()}` , 'descripcion' : `${$$('#descpop').val()}`, 'url': fotospor})
+  
+$$(`${$$('#desplegacat').val()}`).append(`
   <li id="${portfolio}" >
        <div class="item-content" >
-         <div class="item-media por${portfolio} portadatarjeta"></div>
+         <div class="item-media portadatarjeta"><img src="${fotospor[0]}" width="80"/></div>
          <div class="item-inner">
            <div class="item-title-row">
              <div class="item-title">${$$('#titupop').val()}</div>
-             <div class="item-after button popup-open" data-popup="#p${portfolio}" >ver</div>
+             <div class="item-after button popup-open" data-popup="#porfolios">ver</div>
            </div>
            <div class="item-text">${$$('#descpop').val()}</div>
          </div>
        </div>
        <div class="sortable-handler"></div>
-     </li>
-  `)
-  $$('body').append(`         <div class="popup por" id="p${portfolio}">
-                                <div class=" row h96 nom page-content">
-                                  <div class="row h30">
-                                      <div class="col-100 h50 display-flex justify-content-center align-content-center block no-margin">
-                                          <input type="text"  placeholder="TÍTULO" class="auto text-align-left col-100 h100 titlee required" maxlength="17" value="${$$('#titupop').val()}" ></input>
-                                        </div>
-                                        <div class="col-100 h30 block no-margin">
-                                          <textarea class="col-100 h100 description" placeholder="Descripción" value="${$$('#descpop').text()}" ></textarea>
-                                      </div>
-                                   </div> <!-- cierro la altura 30 -->
-                                   <div class="row h100 col-100 contents auto prepre${portfolio}">
-                                   <!-- aca se van a agregar las fotos nuevas -->
-                                   </div>
+  </li>
+  `);
 
-                                </div> <!--cierro page content-->  
-                              </div>  `)
-  };
-function crearpor(){
-  //esto va en la carpeta con el id de idnuevo
-  //mando a guardar pportfolio como ID en portfolio
-  //adentro de pportfolio guardo lo que sigue
-  //mando a guardar titulo ${$$('#titupop').val()}
-  //mando a guardar descripcion ${$$('#descpop').text()}
-  //mando a guardar fotospor en url
-    for (i=0 ; i<fotospor.length ; i++){
-      $$(`.prepre${portfolio}`).append(`  
-      <div class="col-50 auto"><img src="${fotospor[i]}" class="col-100"/></div>
-      `)
-    }
-    $$(`.por${portfolio}.portadatarjeta`).append(`<img src="${fotospor[0]}" width="80"/>`)
 fotospor=[] ;
   };
+
 // Create dynamic Popup
 var dynamicPopup = app.popup.create({
   content: '<div class="popup m5 crearmiporfolio" >'+
@@ -231,13 +195,52 @@ var dynamicPopup = app.popup.create({
               },
             }
                       });
+
+// click evento 
+document.addEventListener('click',function(obj){
+  var fotos = []
+  if (obj.path[0].innerText == 'VER'){
+  
+    dbuser.collection('categorias').doc(`${obj.path[9].id}`).collection('portfolios').doc(`${obj.path[4].id}`).get()
+    .then (function (doc){
+      titulo=doc.data().titulo,
+      descripcion=doc.data().descripcion,
+      fotos=doc.data().url}     
+      )
+    .then(()=>{
+      $$('#descripcionpopup').text(descripcion)
+      $$('#titulopopup').val(titulo)
+      for (i=0 ; i<fotos.length ; i++){
+        $$(`#prepreportfolio`).append(`  
+        <div class="col-50 auto"><img src="${fotos[i]}" class="col-100"/></div>
+        `)
+      }
+      myPhotoBrowserPage = app.photoBrowser.create({
+        photos : fotos,
+        type: 'page',
+        theme: 'dark',
+      });
+      
+    })
+  } 
+ 
+
+})
+// Cambio de nombre
+document.addEventListener('blur',function(obj){
+  //if (obj.path[0].innerText == 'VER'){}
+  console.log(obj.path[0])
+})
+
+
+
 /*BOTON BACK ANDROID*/ /** ahora ademas maneja los paneles */
 document.addEventListener("backbutton", onBackKeyDown, false); 
 function onBackKeyDown() { 
-                            if  ($$('.panel-right').hasClass('panel-active')||$$('.actions-backdrop').hasClass('backdrop-in')||$$('.popup.por').hasClass('modal-in')){ 
+                            if  ($$('.panel-right').hasClass('panel-active')||$$('.actions-backdrop').hasClass('backdrop-in')){ 
                                   app.panel.close(),
-                                  app.actions.close(),
-                                  app.popup.close() 
+                                  app.actions.close()
+                                  
                                 }
                             else if ($$('.popup.crearmiporfolio').hasClass('modal-in')) {
                               navigator.notification.confirm(
@@ -248,13 +251,18 @@ function onBackKeyDown() {
                               );
                               function onConfirm(buttonIndex) {
                                   if (buttonIndex == 1) {
-                                    app.popup.close()  
+                                    app.popup.close();
+                                    $$('#prepreportfolio').empty();
+                                    fotospor=[];
                                   }
                                 }
                             }
+                             else if($$('.popup.por').hasClass('modal-in')){
+                              app.popup.close(), 
+                              $$('#prepreportfolio').empty()
+                             }
                              else {  switch (app.views.main.router.url) {
                                                                           case ( "/about/" ) :
-                                                                                
                                                                                   ayuda3();
                                                                           break;
                                                                           default :
@@ -309,13 +317,10 @@ function createNewFileEntry(imgUri) {
 
   }, onErrorResolveUrl);
 }
-// funciones de la cámara // 
-
-
 // funciones para recorrer cosas dentro de la app //
 function  selector (x){
   for (var i=0; i<x.length; i++){
-    var valor=$$(`#t${x[i]}`).val();
+    var valor=$$(`#t${x[i]}`).val(); // esto me carga el titulo de la categoria //
     var cuerpo=`#b${x[i]}` // esto me carga el id de el cuerpo a usar en el valor del selector //
     $$("#desplegacat").append(`<option value="${cuerpo}">${valor}</option>`)
 };}
@@ -335,11 +340,32 @@ function iniciarsesion (username,password){
         nombre=doc.data().nombre,
         apellido=doc.data().apellido}     
         )
-      .then(()=>{
-        app.dialog.close();
-        app.dialog.alert('Bienvenido '+ nombre +''+ apellido,'PIC folio'); // le decimos olis 
-        $$('#usuarioiniciado').text(nombre+' '+apellido) ;
-      })
+          .then(()=>{
+            dbuser.collection('categorias').get()
+            .then(function(querySnapshot) {
+              querySnapshot.forEach(function(doc) {
+                title = doc.data().titulo
+                categ.push(doc.id)
+                //categori= doc.id
+                createCategories(doc.id,title);
+              });
+
+              for (let i = 0 ; i<categ.length ; i++)
+              dbuser.collection('categorias').doc(`${categ[i]}`).collection('portfolios').get()
+              .then(function(querySnapshot){
+               querySnapshot.forEach(function(doc) {
+                 title = doc.data().titulo
+                 desc = doc.data().descripcion
+                 url = doc.data().url
+                 createCard(categ[i],doc.id,title,desc,url);
+               });
+// aca, por cada id tengo que generar una categoria, dentro de la categoria tengo que poner el titulo y las tarjetas.
+             });
+                })
+            app.dialog.close();
+            app.dialog.alert('Bienvenido '+ nombre +' '+ apellido,'PIC folio'); // le decimos olis 
+            $$('#usuarioiniciado').text(nombre+' '+apellido) ;
+          })
       }
     )
     .catch(function(error) {
@@ -414,7 +440,7 @@ function registrame(){
   firebase.auth().createUserWithEmailAndPassword(nuevoemail, nuevopass)
   .then(function (){
     db.collection("usuarios").doc(`${nuevoemail}`).set({'nombre':nombre,'apellido': apellido});
-    app.dialog.alert('Ya estas formando parte de la comunidad! <br> Gracias ' + nombre + ' ' + apellido + '<br> Inicia sesión para continuar.', 'Registro Exitoso', function(){ayuda3();});
+    app.dialog.alert('Ya estas formando parte de la comunidad! <br> Gracias ' + nombre + ' ' + apellido , 'Registro Exitoso', function(){ayuda3();});
   })
   .catch(function(error) {
   // Handle Errors here.
@@ -478,3 +504,63 @@ $$(document).on('page:init', '.page[data-name="about"]', function (e) {
 
 
 
+const createCategories = (x,y) => {
+  $$(".swiper-wrapper.categorias").append(`
+  <!-- tu append va de aca -->
+  <div class="page-content swiper-slide display-flex justify-content-center align-content-center elevation-6 elevation-hover-24 elevation-pressed-12 elevation-transition nopading atributo" id="${x}">
+      <div class="row"> 
+                <div class="row col-100 h20">
+                      <div class="col-100 h100 display-flex justify-content-center align-content-center">
+                              <input type="text" placeholder="Categoría" id="t${x}" class="auto text-align-center col-100 h100 titlee required" value="${y}"></input>
+                      </div>
+                </div>
+          <div class="row col-100 contents" >   
+          <!-- LISTAS ACOMODABLES -->
+          <div class="list media-list sortable col-100">
+          <li class="row">
+                <span class="col-70 auto">Reordenar los portfolios</span>
+                <label class="toggle toggle-init color-black  auto">
+                  <input type="checkbox" class="sortable-toggle col-70">
+                  <span class="toggle-icon"></span>
+                </label>
+          </li>  
+                <ul id="b${x}">               
+                </ul>
+          </div>
+          <!-- LISTAS ACOMODABLES -->
+          </div>
+  </div>  
+<!-- hasta aca-->  
+`);
+}
+
+const createCard = (x,y,titulo,descripcion,url) => {
+// desplega cat tiene que ser el ID del portfolio + #b
+
+  $$((`#b${x}`)).append(`
+  <li id="${y}" >
+       <div class="item-content" >
+         <div class="item-media portadatarjeta"><img src="${url[0]}" width="80"/></div>
+         <div class="item-inner">
+           <div class="item-title-row">
+             <div class="item-title">${titulo}</div>
+             <div class="item-after button popup-open" data-popup="#porfolios">ver</div>
+           </div>
+           <div class="item-text">${descripcion}</div>
+         </div>
+       </div>
+       <div class="sortable-handler"></div>
+  </li>
+  `);
+
+}
+
+
+// $$('.categoria').on('click', function (){
+//   console.log(this.id)
+// })
+$$('.pb-page').on('click', function () {
+  myPhotoBrowserPage.open();
+});
+
+// MODIFICAR FOTOS POR LOGO! //
