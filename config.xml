@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>helloworld</name>
+    <name>PIC folio</name>
     <description>
-        A basic Framework7 template for PhoneGap.
+       Una aplicación para crear y visibilizar tus trabajos a través de portfolios.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="rosalenjulian@gmail.com" href="https://www.linkedin.com/in/julián-rosalen/">
+    Rosalen Julián 
     </author>
     <content src="index.html" />
     <access origin="*" />
