@@ -111,8 +111,8 @@ var portfolio; // Id's of portfolios
 var photosPort=[]; // Array whit URL's info
 var storage=window.localStorage; // shorten the route
 var dbuser; // Acces to user's DB
- 
-// funcion de ayuda para generar las paginas y abrir el popup
+
+// this function's help me to use some another functions when i click in somethings buttons
 function ayuda () {
             // Abrime el dynamic popup
             dynamicPopup.open();
@@ -150,7 +150,7 @@ $$(`${$$('#desplegacat').val()}`).append(`
 photosPort=[] ;
   };
 
-// Create dynamic Popup
+// Create dynamic Popup //
 var dynamicPopup = app.popup.create({
   content: '<div class="popup m5 crearmiporfolio" >'+
               '<div class=" row h96 nom page-content">'+
@@ -477,7 +477,7 @@ $$(document).on('deviceready', function() {
     }
 });
 
-// Option 1. Using one 'page:init' handler for all pages
+// init index // 
 $$(document).on('page:init','.page[data-name="index"]', function (e) {
     // abrime creacion de cosas
     $$('.creacion').on('click', function () {
@@ -494,7 +494,7 @@ $$(document).on('page:init','.page[data-name="index"]', function (e) {
 
 })
 
-// Option 2. Using live 'page:init' event handlers for each page
+// init about //
 $$(document).on('page:init', '.page[data-name="about"]', function (e) {
     // Do something here when page with data-name="about" attribute loaded and initialized
     console.log(e);
