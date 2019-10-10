@@ -53,8 +53,8 @@ var mySwiper = new Swiper('.swiper-container', {
 // aca creo las nuevas categorias
 var idnuevo=Date.now();
 dbuser.collection('categorias').doc(`${idnuevo}`).set({'titulo':''});
-
-  $$(".swiper-wrapper.categorias").append(`
+ 
+$$(".swiper-wrapper.categorias").append(`
   <!-- tu append va de aca -->
   <div class="page-content swiper-slide display-flex justify-content-center align-content-center elevation-6 elevation-hover-24 elevation-pressed-12 elevation-transition nopading atributo" id="${idnuevo}">
       <div class="row"> 
@@ -83,11 +83,11 @@ dbuser.collection('categorias').doc(`${idnuevo}`).set({'titulo':''});
 <!-- hasta aca-->  
 `);
 
+// para modificar el titulo
+$$(`#t${idnuevo}`).on('blur', function (){dbuser.collection('categorias').doc(`${idnuevo}`).set({'titulo': $$(`#t${idnuevo}`).val()})});
+
 // aca voy a agregar los datos en un variable // 
-
 categ.push(idnuevo)
-
-  
   }
         },
 
@@ -227,10 +227,10 @@ document.addEventListener('click',function(obj){
 
 })
 // Cambio de nombre
-document.addEventListener('blur',function(obj){
-  //if (obj.path[0].innerText == 'VER'){}
-  console.log(obj.path[0])
-})
+// document.addEventListener('blur',function(obj){
+//   //if (obj.path[0].innerText == 'VER'){}
+//   console.log(obj.path[0])
+// })
 
 
 
@@ -432,7 +432,7 @@ function dialogo () {
   }).open();
 };
 // registro de mail y contraseña //
-function registrame(){ 
+function register(){ 
   nuevoemail=$$('#nuevoemail').val()
   nuevopass=$$('#nuevopass').val()
   nombre=$$('#nombre').val()
@@ -489,11 +489,16 @@ $$(document).on('page:init','.page[data-name="index"]', function (e) {
     // abrime creacion de cosas
     $$('.creacion').on('click', function () {
       cr.open();
-    // abrime popup
-    $$('.col-50.h20.bi.mb').on('click', function(){
-      dynamicPopup.open();
-    });
   });
+  // abrime popup
+   $$('.col-50.h20.bi.mb').on('click', function(){
+    dynamicPopup.open();
+  });
+  // abrime el visor 
+  $$('.pb-page').on('click', function () {
+    myPhotoBrowserPage.open();
+  });
+
 })
 
 // Option 2. Using live 'page:init' event handlers for each page
@@ -504,14 +509,14 @@ $$(document).on('page:init', '.page[data-name="about"]', function (e) {
 
 
 
-const createCategories = (x,y) => {
+const createCategories = (Identification,Title) => {
   $$(".swiper-wrapper.categorias").append(`
   <!-- tu append va de aca -->
-  <div class="page-content swiper-slide display-flex justify-content-center align-content-center elevation-6 elevation-hover-24 elevation-pressed-12 elevation-transition nopading atributo" id="${x}">
+  <div class="page-content swiper-slide display-flex justify-content-center align-content-center elevation-6 elevation-hover-24 elevation-pressed-12 elevation-transition nopading atributo" id="${Identification}">
       <div class="row"> 
                 <div class="row col-100 h20">
                       <div class="col-100 h100 display-flex justify-content-center align-content-center">
-                              <input type="text" placeholder="Categoría" id="t${x}" class="auto text-align-center col-100 h100 titlee required" value="${y}"></input>
+                              <input type="text" placeholder="Categoría" id="t${Identification}" class="auto text-align-center col-100 h100 titlee required" value="${Title}"></input>
                       </div>
                 </div>
           <div class="row col-100 contents" >   
@@ -524,7 +529,7 @@ const createCategories = (x,y) => {
                   <span class="toggle-icon"></span>
                 </label>
           </li>  
-                <ul id="b${x}">               
+                <ul id="b${Identification}">               
                 </ul>
           </div>
           <!-- LISTAS ACOMODABLES -->
@@ -532,13 +537,16 @@ const createCategories = (x,y) => {
   </div>  
 <!-- hasta aca-->  
 `);
+// Modify the title when i go out the title
+$$(`#t${Identification}`).on('blur', function (){dbuser.collection('categorias').doc(`${Identification}`).set({'titulo': $$(`#t${Identification}`).val()})});
+
 }
 
-const createCard = (x,y,titulo,descripcion,url) => {
+const createCard = (ulIdentification,liIdentification,titulo,descripcion,url) => {
 // desplega cat tiene que ser el ID del portfolio + #b
 
-  $$((`#b${x}`)).append(`
-  <li id="${y}" >
+  $$((`#b${ulIdentification}`)).append(`
+  <li id="${liIdentification}" >
        <div class="item-content" >
          <div class="item-media portadatarjeta"><img src="${url[0]}" width="80"/></div>
          <div class="item-inner">
@@ -556,11 +564,4 @@ const createCard = (x,y,titulo,descripcion,url) => {
 }
 
 
-// $$('.categoria').on('click', function (){
-//   console.log(this.id)
-// })
-$$('.pb-page').on('click', function () {
-  myPhotoBrowserPage.open();
-});
 
-// MODIFICAR FOTOS POR LOGO! //
