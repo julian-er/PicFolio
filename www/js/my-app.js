@@ -40,7 +40,7 @@ var mySwiper = new Swiper('.swiper-container', {
   observer: true,
 });
 
-  //actions grid
+  //actions grid // 
   var cr = app.actions.create({
     grid: true,
     buttons: [
@@ -50,31 +50,31 @@ var mySwiper = new Swiper('.swiper-container', {
           icon: '<img src="img/_ionicons_svg_md-today.svg" width="48" alt="Nueva Categoría"/>',
           onClick: function () {
 
-// aca creo las nuevas categorias
-var idnuevo=Date.now();
-dbuser.collection('categorias').doc(`${idnuevo}`).set({'titulo':''});
+// here's create the new categories 
+var momentaryId=Date.now();
+dbuser.collection('categorias').doc(`${momentaryId}`).set({'titulo':''});
  
 $$(".swiper-wrapper.categorias").append(`
   <!-- tu append va de aca -->
-  <div class="page-content swiper-slide display-flex justify-content-center align-content-center elevation-6 elevation-hover-24 elevation-pressed-12 elevation-transition nopading atributo" id="${idnuevo}">
-      <div class="row"> 
+  <div class="page-content swiper-slide display-flex justify-content-center align-content-center elevation-6 elevation-hover-24 elevation-pressed-12 elevation-transition nopading atributo row" id="${momentaryId}">
+      <div class="col-100 h100"> 
                 <div class="row col-100 h20">
                       <div class="col-100 h100 display-flex justify-content-center align-content-center">
-                              <input type="text" placeholder="Categoría" id="t${idnuevo}" class="auto text-align-center col-100 h100 titlee required"></input>
+                              <input type="text" placeholder="Categoría" id="t${momentaryId}" class="auto text-align-center col-100 h100 titlee required" maxlength="17"></input>
                       </div>
                 </div>
-          <div class="row col-100 contents" >   
+          <div class="row col-100 contents h100" >   
           <!-- LISTAS ACOMODABLES -->
                  
           <div class="list media-list sortable col-100">
           <li class="row">
                 <span class="col-70 auto">Reordenar los portfolios</span>
                 <label class="toggle toggle-init color-black  auto">
-                  <input type="checkbox" class="sortable-toggle col-70">
+                  <input type="checkbox" class="sortable-toggle col-70" data-sortable="#b${momentaryId}">
                   <span class="toggle-icon"></span>
                 </label>
           </li>  
-                <ul id="b${idnuevo}">               
+                <ul id="b${momentaryId}">               
                 </ul>
           </div>
           <!-- LISTAS ACOMODABLES -->
@@ -84,10 +84,10 @@ $$(".swiper-wrapper.categorias").append(`
 `);
 
 // para modificar el titulo
-$$(`#t${idnuevo}`).on('blur', function (){dbuser.collection('categorias').doc(`${idnuevo}`).set({'titulo': $$(`#t${idnuevo}`).val()})});
+$$(`#t${momentaryId}`).on('blur', function (){dbuser.collection('categorias').doc(`${momentaryId}`).set({'titulo': $$(`#t${momentaryId}`).val()})});
 
 // aca voy a agregar los datos en un variable // 
-categ.push(idnuevo)
+categ.push(momentaryId)
   }
         },
 
@@ -95,7 +95,7 @@ categ.push(idnuevo)
           text: 'Nuevo Portfolio',
           icon: '<img src="img/_ionicons_svg_md-images.svg" width="48" alt="Nuevo Portfolio"/>',
           onClick: function () {
-            ayuda (); 
+            (categ.length == 0)? app.dialog.alert('Para generar portfolios debes tener categorías','El portfolio no se creará') :ayuda (); 
             }          
         },
       ]
@@ -103,7 +103,7 @@ categ.push(idnuevo)
   });
 
 // global variables //  
-var myPhotoBrowserPage // galeri 
+var myPhotoBrowserPage; // gallery 
 var db = firebase.firestore(); // to save in DB
 var port = []; // save Id's of portfolios 
 var categ = []; // array for put values in the selector when the popup is open 
@@ -120,14 +120,14 @@ function ayuda () {
             selector(categ);          
 };
 function ayuda2(){
-  (photosPort.length>0)?(createcard ()): (app.dialog.alert('El portfolio no puede estár vacío, por favor coloca imágenes en el','El portfolio no se creará'), dynamicPopup.open());
+  (photosPort.length>0)?(createLocalCard ()): (app.dialog.alert('El portfolio no puede estar vacío, por favor coloca imágenes en él','El portfolio no se creará'), dynamicPopup.open());
 };
 function ayuda3(){
   mainView.router.back();
   diaLogIn();
 };
 // create and save card info //
-function createcard (){
+function createLocalCard (){
 var ubicacion = (($$('#desplegacat').val()).slice(2));
 dbuser.collection('categorias').doc(ubicacion).collection('portfolios').doc(`${portfolio}`).set({'titulo': `${$$('#titupop').val()}` , 'descripcion' : `${$$('#descpop').val()}`, 'url': photosPort})
   
@@ -243,7 +243,7 @@ function onBackKeyDown() {
                               navigator.notification.confirm(
                                 'Al volver hacia atrás estas cancelando la creación del portfolio. ¿Estas seguro que deseas continuar?',           
                                 onConfirm,            
-                                'Cancelando la operación', 
+                                'Cancelar portfolio', 
                                 ['Si','No']     
                               );
                               function onConfirm(buttonIndex) {
@@ -315,12 +315,14 @@ function createNewFileEntry(imgUri) {
 
   }, onErrorResolveUrl);
 }
-// funciones para recorrer cosas dentro de la app //
-function  selector (x){
-  for (var i=0; i<x.length; i++){
-    var valor=$$(`#t${x[i]}`).val(); // esto me carga el titulo de la categoria //
-    var cuerpo=`#b${x[i]}` // esto me carga el id de el cuerpo a usar en el valor del selector //
-    $$("#desplegacat").append(`<option value="${cuerpo}">${valor}</option>`)
+// Do the selector whit Title of categories //
+function  selector (selectorsId){
+  var helpTitle = 1;
+  for (var i=0; i<selectorsId.length; i++){
+    var titleOfCategories=$$(`#t${selectorsId[i]}`).val(); // the categories titles //
+    var valueOfCategories=`#b${selectorsId[i]}`; // Id's of Ul to put a new card //
+    (titleOfCategories.length > 0) ? $$("#desplegacat").append(`<option value="${valueOfCategories}">${titleOfCategories}</option>`) : ($$("#desplegacat").append(`<option value="${valueOfCategories}"> categoría sin nombre ${helpTitle}</option>`), helpTitle++);
+
 };}
 // Login
 function login (username,password){
@@ -357,7 +359,6 @@ function login (username,password){
                  url = doc.data().url
                  createCard(categ[i],doc.id,title,desc,url);
                });
-// aca, por cada id tengo que generar una categoria, dentro de la categoria tengo que poner el titulo y las tarjetas.
              });
                 })
             app.dialog.close();
@@ -430,7 +431,7 @@ function diaLogIn () {
   }).open();
 };
 // registro de mail y contraseña //
-function register(){ 
+function register(){
   nuevoemail=$$('#nuevoemail').val()
   nuevopass=$$('#nuevopass').val()
   nombre=$$('#nombre').val()
@@ -444,15 +445,17 @@ function register(){
   // Handle Errors here.
   var errorCode = error.code;
   var errorMessage = error.message;
-  if (errorCode == 'auth/weak-password') {
-
-  alert('Clave muy débil.');
-
-  } else {
-
-  alert(errorMessage);
-
-  }
+  switch (errorCode) {
+    case('auth/invalid-email'):
+    app.dialog.alert('El formato no es correcto o el campo está vacío.','Email inválido');
+    break;
+    case('auth/weak-password'):
+    app.dialog.alert('La contraseña debe tener al menos 6 caracteres','Contraseña inválida');
+    break;
+    default:
+      break;
+    }
+  //
   console.log(error);
 
   });
@@ -490,6 +493,7 @@ $$(document).on('page:init','.page[data-name="index"]', function (e) {
   // abrime el visor 
   $$('.pb-page').on('click', function () {
     myPhotoBrowserPage.open();
+    $$('#prepreportfolio').empty()
   });
 
 })
@@ -505,20 +509,20 @@ $$(document).on('page:init', '.page[data-name="about"]', function (e) {
 const createCategories = (Identification,Title) => {
   $$(".swiper-wrapper.categorias").append(`
   <!-- tu append va de aca -->
-  <div class="page-content swiper-slide display-flex justify-content-center align-content-center elevation-6 elevation-hover-24 elevation-pressed-12 elevation-transition nopading atributo" id="${Identification}">
-      <div class="row"> 
+  <div class="page-content swiper-slide display-flex justify-content-center align-content-center elevation-6 elevation-hover-24 elevation-pressed-12 elevation-transition nopading atributo row" id="${Identification}">
+      <div class="col-100 h100"> 
                 <div class="row col-100 h20">
                       <div class="col-100 h100 display-flex justify-content-center align-content-center">
-                              <input type="text" placeholder="Categoría" id="t${Identification}" class="auto text-align-center col-100 h100 titlee required" value="${Title}"></input>
+                              <input type="text" placeholder="Categoría" id="t${Identification}" class="auto text-align-center col-100 h100 titlee required" value="${Title}" maxlength="17"></input>
                       </div>
                 </div>
-          <div class="row col-100 contents" >   
+          <div class="row col-100 contents h100" >   
           <!-- LISTAS ACOMODABLES -->
           <div class="list media-list sortable col-100">
           <li class="row">
                 <span class="col-70 auto">Reordenar los portfolios</span>
                 <label class="toggle toggle-init color-black  auto">
-                  <input type="checkbox" class="sortable-toggle col-70">
+                  <input type="checkbox" class="sortable-toggle col-70" data-sortable="#b${Identification}">
                   <span class="toggle-icon"></span>
                 </label>
           </li>  
@@ -540,9 +544,9 @@ const createCard = (ulIdentification,liIdentification,titulo,descripcion,url) =>
 
   $$((`#b${ulIdentification}`)).append(`
   <li id="${liIdentification}" >
-       <div class="item-content" >
-         <div class="item-media portadatarjeta"><img src="${url[0]}" width="80"/></div>
-         <div class="item-inner">
+       <div class="item-content row" >
+         <div class="item-media portadatarjeta col-20"><img src="${url[0]}" width="100%"/></div>
+         <div class="item-inner col-80">
            <div class="item-title-row">
              <div class="item-title">${titulo}</div>
              <div class="item-after button popup-open" data-popup="#porfolios">ver</div>
