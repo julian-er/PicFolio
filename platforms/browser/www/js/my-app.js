@@ -164,16 +164,16 @@ var dynamicPopup = app.popup.create({
                           '<div class="col-100 h20 block no-margin row">'+
                                   '<p class="col-70 description">Selecciona una categoría  <span class="icon ion-md-arrow-forward"></span></p>'+
                                   '<select placeholder="Elige una categoría" class="col-30 description appendcateg" id="desplegacat">'+
-                                  // aca caen las categorías // 
+                                  // here go te categories // 
                                   '</select>'+
                               '</div>'+
-                 '</div>'+ // cierro la altura 30
+                 '</div>'+ // close h30 //
                  '<div class="row h100 col-100 contents auto prepre">'+
-                // aca se van a agregar las fotos nuevas // 
+                // here put the new photos // 
                  '</div>'+
-                // botón que agrega 
+                // button to add pictures // 
                  '<div class="col-50 auto"><img src="img/photo.svg" class="col-100" onclick="openFilePicker()"/></div>'+ 
-              '</div>'+ //cierro page content
+              '</div>'+ //close page content //
                               // toolbar //
                                 '<div class="toolbar toolbar-bottom-md no-shadow color-black">'+
                                         '<div class="toolbar-inner justify-content-center align-content-center">'+
@@ -194,7 +194,7 @@ var dynamicPopup = app.popup.create({
             }
                       });
 
-// click event // 
+// click event to open 'this' portfolio // 
 document.addEventListener('click',function(obj){
   var fotos = []
   if (obj.path[0].innerText == 'VER'){
@@ -327,9 +327,9 @@ function  selector (selectorsId){
 // Login
 function login (username,password){
     app.dialog.close()
-    //cargamos para que piense el 
+    // load to wait download / verification // 
       app.dialog.preloader('Verificando');
-    // aca va iniciando
+    // Sign In //
     firebase.auth().signInWithEmailAndPassword(username, password)
     .then( function (){
       storage.setItem('email', username)
@@ -430,7 +430,7 @@ function diaLogIn () {
 
   }).open();
 };
-// registro de mail y contraseña //
+// function to register users //
 function register(){
   nuevoemail=$$('#nuevoemail').val()
   nuevopass=$$('#nuevopass').val()
@@ -482,15 +482,15 @@ $$(document).on('deviceready', function() {
 
 // init index // 
 $$(document).on('page:init','.page[data-name="index"]', function (e) {
-    // abrime creacion de cosas
+    // Open Actions buttons //
     $$('.creacion').on('click', function () {
       cr.open();
   });
-  // abrime popup
+  // Open popup //
    $$('.col-50.h20.bi.mb').on('click', function(){
     dynamicPopup.open();
   });
-  // abrime el visor 
+  // Open gallery // 
   $$('.pb-page').on('click', function () {
     myPhotoBrowserPage.open();
     $$('#prepreportfolio').empty()
@@ -498,7 +498,7 @@ $$(document).on('page:init','.page[data-name="index"]', function (e) {
 
 })
 
-// init about //
+// init register //
 $$(document).on('page:init', '.page[data-name="about"]', function (e) {
     // Do something here when page with data-name="about" attribute loaded and initialized
     console.log(e);
