@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.phonegap.helloworld" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>helloworld</name>
+<widget id="com.phonegap.picfolio" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>PIC folio</name>
     <description>
-        A basic Framework7 template for PhoneGap.
+       Una aplicación para crear y visibilizar tus trabajos a través de portfolios.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="rosalenjulian@gmail.com" href="https://www.linkedin.com/in/julián-rosalen/">
+    Rosalen Julián 
     </author>
     <content src="index.html" />
     <access origin="*" />
@@ -15,5 +15,9 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <preference name="phonegap-version" value="cli-7.1.0" />
+    <preference name="AndroidPersistentFileLocation" value="Compatibility" />
+    <preference name="android-minSdkVersion" value="14" />
+    <preference name="android-targetSdkVersion" value="26" />
     <preference name="DisallowOverscroll" value="true" />
 </widget>

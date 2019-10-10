@@ -1,11 +1,11 @@
 {
   "background_color": "#FFF",
   "display": "standalone",
-  "name": "helloworld",
-  "short_name": "helloworld",
-  "version": "com.phonegap.helloworld",
-  "description": "A basic Framework7 template for PhoneGap.",
-  "author": "Apache Cordova Team",
+  "name": "PIC folio",
+  "short_name": "PIC folio",
+  "version": "com.phonegap.picfolio",
+  "description": "Una aplicación para crear y visibilizar tus trabajos a través de portfolios.",
+  "author": "Rosalen Julián",
   "icons": [],
   "start_url": "index.html",
   "theme_color": "#2196f3"
