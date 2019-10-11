@@ -206,7 +206,7 @@ document.addEventListener('click',function(obj){
       fotos=doc.data().url}     
       )
     .then(()=>{
-      $$('#descripcionpopup').text(descripcion)
+      $$('#descripcionpopup').val(descripcion)
       $$('#titulopopup').val(titulo)
       for (i=0 ; i<fotos.length ; i++){
         $$(`#prepreportfolio`).append(`  
