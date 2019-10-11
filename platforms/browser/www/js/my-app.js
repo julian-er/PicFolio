@@ -240,19 +240,19 @@ function onBackKeyDown() {
                                   
                                 }
                             else if ($$('.popup.crearmiporfolio').hasClass('modal-in')) {
-                              navigator.notification.confirm(
-                                'Al volver hacia atrás estas cancelando la creación del portfolio. ¿Estas seguro que deseas continuar?',           
-                                onConfirm,            
-                                'Cancelar portfolio', 
-                                ['Si','No']     
-                              );
-                              function onConfirm(buttonIndex) {
-                                  if (buttonIndex == 1) {
-                                    app.popup.close();
-                                    $$('#prepreportfolio').empty();
-                                    photosPort=[];
-                                  }
-                                }
+                              // navigator.notification.confirm(
+                              //   'Al volver hacia atrás estas cancelando la creación del portfolio. ¿Estas seguro que deseas continuar?',           
+                              //   onConfirm,            
+                              //   'Cancelar portfolio', 
+                              //   ['Si','No']     
+                              // );
+                              // function onConfirm(buttonIndex) {
+                              //     if (buttonIndex == 1) {
+                              //       app.popup.close();
+                              //       $$('#prepreportfolio').empty();
+                              //       photosPort=[];
+                              //     }
+                              //   }
                             }
                              else if($$('.popup.por').hasClass('modal-in')){
                               app.popup.close(), 
@@ -467,6 +467,46 @@ function register(){
     location.reload();
   });
  } 
+
+// dialog to cancel portfolio //
+function cancelPortfolio () {
+  app.dialog.create({
+    title: 'Cancelar portfolio',
+    text: 'Al volver hacia atrás estas cancelando la creación del portfolio. ¿Estas seguro que deseas continuar?',
+    content:` <div class="list no-hairlines-md">
+                  <ul>
+                    <li class="item-content item-input">
+                                            <div class="item-inner">
+                                            <div class="item-title item-floating-label">E-mail</div>
+                                            <div class="item-input-wrap">
+                                                <input type="email" placeholder="picfolio@portfolios.com" id="username" required validate>
+                                                <span class="input-clear-button"></span>
+                                            </div>
+                                            </div>
+                                        </li>
+                                <li class="item-content item-input">
+                                    <div class="item-inner">
+                                    <div class="item-title item-floating-label">Password</div>
+                                    <div class="item-input-wrap">
+                                        <input type="password" placeholder="Password" id="password" required validate>
+                                        <span class="input-clear-button"></span>
+                                    </div>
+                                    </div>
+                                </li>
+                    </ul>
+                    <div class="block">
+                    <p class="row">
+                      <button class="col button button-raised color-black" onClick="login($$('#username').val(),$$('#password').val())">Iniciar Sesión</button>
+                    </p>
+                    </div>
+                    <p class="text-align-center">Si todavia no estas registrado, <a href="/about/" onClick="app.dialog.close()">registrate acá</a></p>
+                </div>`,
+    
+
+  }).open();
+};
+
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function() {
     console.log("Device is ready!");  
