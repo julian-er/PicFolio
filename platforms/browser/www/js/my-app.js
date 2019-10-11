@@ -19,6 +19,10 @@ var app = new Framework7({
         path: '/about/',
         url: 'about.html',
       },
+      {
+        path: '/info/',
+        url: 'info.html',
+      },
     ],
     navbar: {
       hideOnPageScroll: false,
