@@ -133,9 +133,9 @@ dbuser.collection('categorias').doc(ubicacion).collection('portfolios').doc(`${p
   
 $$(`${$$('#desplegacat').val()}`).append(`
   <li id="${portfolio}" >
-       <div class="item-content" >
-         <div class="item-media portadatarjeta"><img src="${photosPort[0]}" width="80"/></div>
-         <div class="item-inner">
+       <div class="item-content row" >
+         <div class="item-media portadatarjeta col-20"><img src="${photosPort[0]}" width="100%"/></div>
+         <div class="item-inner col-80">
            <div class="item-title-row">
              <div class="item-title">${$$('#titupop').val()}</div>
              <div class="item-after button popup-open" data-popup="#porfolios">ver</div>
