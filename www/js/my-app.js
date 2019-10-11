@@ -23,6 +23,10 @@ var app = new Framework7({
         path: '/info/',
         url: 'info.html',
       },
+      {
+        path: '/guide/',
+        url: 'guide.html',
+      },
     ],
     navbar: {
       hideOnPageScroll: false,
@@ -256,6 +260,13 @@ function onBackKeyDown() {
                                                                           case ( "/about/" ) :
                                                                                   ayuda3();
                                                                           break;
+                                                                          case ("/guide/") :
+                                                                            mainView.router.back();
+                                                                          break;
+                                                                          case ("/info/") :
+                                                                            mainView.router.back();
+                                                                          break;
+
                                                                           default :
                                                                             {
                                                                                 navigator.app.exitApp();
