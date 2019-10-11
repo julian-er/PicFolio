@@ -19,6 +19,14 @@ var app = new Framework7({
         path: '/about/',
         url: 'about.html',
       },
+      {
+        path: '/info/',
+        url: 'info.html',
+      },
+      {
+        path: '/guide/',
+        url: 'guide.html',
+      },
     ],
     navbar: {
       hideOnPageScroll: false,
@@ -133,9 +141,9 @@ dbuser.collection('categorias').doc(ubicacion).collection('portfolios').doc(`${p
   
 $$(`${$$('#desplegacat').val()}`).append(`
   <li id="${portfolio}" >
-       <div class="item-content" >
-         <div class="item-media portadatarjeta"><img src="${photosPort[0]}" width="80"/></div>
-         <div class="item-inner">
+       <div class="item-content row" >
+         <div class="item-media portadatarjeta col-20"><img src="${photosPort[0]}" width="100%"/></div>
+         <div class="item-inner col-80">
            <div class="item-title-row">
              <div class="item-title">${$$('#titupop').val()}</div>
              <div class="item-after button popup-open" data-popup="#porfolios">ver</div>
@@ -206,17 +214,18 @@ document.addEventListener('click',function(obj){
       fotos=doc.data().url}     
       )
     .then(()=>{
-      $$('#descripcionpopup').text(descripcion)
+      $$('#descripcionpopup').val(descripcion)
       $$('#titulopopup').val(titulo)
       for (i=0 ; i<fotos.length ; i++){
         $$(`#prepreportfolio`).append(`  
-        <div class="col-50 auto"><img src="${fotos[i]}" class="col-100"/></div>
+        <div class="col-50 auto"><img src="${fotos[i]}" class="col-100" onClick="OpenGalClosePop(${[i]})"/></div>
         `)
       }
       myPhotoBrowserPage = app.photoBrowser.create({
         photos : fotos,
         type: 'page',
         theme: 'dark',
+        swipeToClose: true,
       });
       
     })
@@ -234,9 +243,10 @@ document.addEventListener('click',function(obj){
 // back button android // 
 document.addEventListener("backbutton", onBackKeyDown, false); 
 function onBackKeyDown() { 
-                            if  ($$('.panel-right').hasClass('panel-active')||$$('.actions-backdrop').hasClass('backdrop-in')){ 
+                            if  ($$('.panel-right').hasClass('panel-active')||$$('.actions-backdrop').hasClass('backdrop-in')||$$('.photo-browser-swiper-container').hasClass('swiper-container')){ 
                                   app.panel.close(),
-                                  app.actions.close()
+                                  app.actions.close(),
+                                  myPhotoBrowserPage.close()
                                   
                                 }
                             else if ($$('.popup.crearmiporfolio').hasClass('modal-in')) {
@@ -250,6 +260,13 @@ function onBackKeyDown() {
                                                                           case ( "/about/" ) :
                                                                                   ayuda3();
                                                                           break;
+                                                                          case ("/guide/") :
+                                                                            mainView.router.back();
+                                                                          break;
+                                                                          case ("/info/") :
+                                                                            mainView.router.back();
+                                                                          break;
+
                                                                           default :
                                                                             {
                                                                                 navigator.app.exitApp();
@@ -573,5 +590,10 @@ const createCard = (ulIdentification,liIdentification,titulo,descripcion,url) =>
 
 }
 
+const OpenGalClosePop = (index) =>{
+  app.popup.close();
+  $$('#prepreportfolio').empty();
+  myPhotoBrowserPage.open(index)
+}
 
 
