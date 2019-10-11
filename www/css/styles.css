@@ -134,6 +134,14 @@
     border: none;
 }
 
+.gal{
+    background-image: url('../img/gallery.svg')!important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    border: none !important;
+    background-size: 75% !important;
+}
+
 .bp{
     background-image: url('../img/photo.svg');
     background-repeat: no-repeat;

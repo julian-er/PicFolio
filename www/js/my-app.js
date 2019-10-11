@@ -210,13 +210,14 @@ document.addEventListener('click',function(obj){
       $$('#titulopopup').val(titulo)
       for (i=0 ; i<fotos.length ; i++){
         $$(`#prepreportfolio`).append(`  
-        <div class="col-50 auto"><img src="${fotos[i]}" class="col-100"/></div>
+        <div class="col-50 auto"><img src="${fotos[i]}" class="col-100" onClick="OpenGalClosePop(${[i]})"/></div>
         `)
       }
       myPhotoBrowserPage = app.photoBrowser.create({
         photos : fotos,
         type: 'page',
         theme: 'dark',
+        swipeToClose: true,
       });
       
     })
@@ -234,9 +235,10 @@ document.addEventListener('click',function(obj){
 // back button android // 
 document.addEventListener("backbutton", onBackKeyDown, false); 
 function onBackKeyDown() { 
-                            if  ($$('.panel-right').hasClass('panel-active')||$$('.actions-backdrop').hasClass('backdrop-in')){ 
+                            if  ($$('.panel-right').hasClass('panel-active')||$$('.actions-backdrop').hasClass('backdrop-in')||$$('.photo-browser-swiper-container').hasClass('swiper-container')){ 
                                   app.panel.close(),
-                                  app.actions.close()
+                                  app.actions.close(),
+                                  myPhotoBrowserPage.close()
                                   
                                 }
                             else if ($$('.popup.crearmiporfolio').hasClass('modal-in')) {
@@ -573,5 +575,10 @@ const createCard = (ulIdentification,liIdentification,titulo,descripcion,url) =>
 
 }
 
+const OpenGalClosePop = (index) =>{
+  app.popup.close();
+  $$('#prepreportfolio').empty();
+  myPhotoBrowserPage.open(index)
+}
 
 
