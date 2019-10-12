@@ -34,7 +34,7 @@
 <allow-intent href="*"/>
 
 <allow-navigation href="*"/>
-<!-- Ojo aca -->
+<!-- Ojo aca --> 
     </platform>
     <platform name="ios">
         <allow-intent href="itms:*" />
