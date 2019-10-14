@@ -149,6 +149,7 @@ $$(`${$$('#desplegacat').val()}`).append(`
              <div class="item-after button popup-open" data-popup="#porfolios">ver</div>
            </div>
            <div class="item-text description">${$$('#descpop').val()}</div>
+           <span class="icon ion-md-trash text-align-right fab fab-right-bottom" onClick="deleteTarg(${portfolio},${ubicacion})"></span>
          </div>
        </div>
        <div class="sortable-handler"></div>
@@ -283,7 +284,7 @@ function openFilePicker(selection) {
   var func = createNewFileEntry;
   navigator.camera.getPicture(function cameraSuccess(imgUri) {
       //alert(imgUri);
-      $$('.prepre').prepend(`<div class="col-50 auto"><img src="${imgUri}" class="col-100"/></div>`);
+      $$('.prepre').prepend(`<div class="col-50 auto"><img src="${imgUri}" class="col-100"/></input></div>`);
       photosPort.push(`${imgUri}`);
   }, function cameraError(error) {
       console.debug("Unable to obtain picture: " + error, "app");
@@ -581,9 +582,11 @@ const createCard = (ulIdentification,liIdentification,titulo,descripcion,url) =>
              <div class="item-after button popup-open" data-popup="#porfolios">ver</div>
            </div>
            <div class="item-text description">${descripcion}</div>
-         </div>
+           <span class="icon ion-md-trash text-align-right fab fab-right-bottom" onClick="deleteTarg(${liIdentification},${ulIdentification})"></span>
+         </div>      
        </div>
        <div class="sortable-handler"></div>
+      </div>
   </li>
   `);
 
@@ -594,5 +597,35 @@ const OpenGalClosePop = (index) =>{
   $$('#prepreportfolio').empty();
   myPhotoBrowserPage.open(index)
 }
+
+const deleteTarg = (portfolio,categories) => {
+// answer first // 
+app.dialog.create({
+  title: '¡Borrar Portfolio!',
+  text: 'Esta acción no se puede deshacer. ¿Estas seguro que deseas continuar?',
+  buttons : [
+    {
+      text: 'Si',
+      onClick: function (){
+        dbuser.collection('categorias').doc(`${categories}`).collection('portfolios').doc(`${portfolio}`).delete()
+        .then(function() {
+          $$(`#${portfolio}`).empty();
+          app.dialog.alert('El portfolio y su contenido ha sido eliminado con éxito','Borrado exitoso')        
+        })
+        .catch(function(error) {
+        console.error("Error: ", error);
+        });
+      } 
+    },
+    {
+      text: 'No',
+    }
+  ]
+  
+
+}).open();
+};
+
+
 
 
