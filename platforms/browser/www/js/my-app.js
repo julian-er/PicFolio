@@ -145,10 +145,10 @@ $$(`${$$('#desplegacat').val()}`).append(`
          <div class="item-media portadatarjeta col-20"><img src="${photosPort[0]}" width="100%"/></div>
          <div class="item-inner col-80">
            <div class="item-title-row">
-             <div class="item-title">${$$('#titupop').val()}</div>
+             <div class="item-title titlee">${$$('#titupop').val()}</div>
              <div class="item-after button popup-open" data-popup="#porfolios">ver</div>
            </div>
-           <div class="item-text">${$$('#descpop').val()}</div>
+           <div class="item-text description">${$$('#descpop').val()}</div>
          </div>
        </div>
        <div class="sortable-handler"></div>
@@ -351,7 +351,6 @@ function login (username,password){
               querySnapshot.forEach(function(doc) {
                 title = doc.data().titulo
                 categ.push(doc.id)
-                //categori= doc.id
                 createCategories(doc.id,title);
               });
 
@@ -550,7 +549,7 @@ const createCategories = (Identification,Title) => {
           <!-- LISTAS ACOMODABLES -->
           <div class="list media-list sortable col-100">
           <li class="row">
-                <span class="col-70 auto">Reordenar los portfolios</span>
+                <span class="col-70 auto description">Reordenar los portfolios</span>
                 <label class="toggle toggle-init color-black  auto">
                   <input type="checkbox" class="sortable-toggle col-70" data-sortable="#b${Identification}">
                   <span class="toggle-icon"></span>
@@ -578,10 +577,10 @@ const createCard = (ulIdentification,liIdentification,titulo,descripcion,url) =>
          <div class="item-media portadatarjeta col-20"><img src="${url[0]}" width="100%"/></div>
          <div class="item-inner col-80">
            <div class="item-title-row">
-             <div class="item-title">${titulo}</div>
+             <div class="item-title titlee">${titulo}</div>
              <div class="item-after button popup-open" data-popup="#porfolios">ver</div>
            </div>
-           <div class="item-text">${descripcion}</div>
+           <div class="item-text description">${descripcion}</div>
          </div>
        </div>
        <div class="sortable-handler"></div>
