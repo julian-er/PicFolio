@@ -126,6 +126,13 @@
     font-family: 'Oswald', sans-serif;
 }
 
+.navBar {
+    background-image: url(../img/icon.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 50%;
+}
+
 .bi{
     background-image: url('../img/add-image.svg');
     background-repeat: no-repeat;
