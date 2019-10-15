@@ -190,3 +190,13 @@
 .dialog-button{
  color: black!important;
 }
+.closeImg {
+        position: absolute; 
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 50%;
+        text-align: center;
+        width:30px;
+        height:30px;
+}
