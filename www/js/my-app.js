@@ -284,7 +284,10 @@ function openFilePicker(selection) {
   var func = createNewFileEntry;
   navigator.camera.getPicture(function cameraSuccess(imgUri) {
       //alert(imgUri);
-      $$('.prepre').prepend(`<div class="col-50 auto"><img src="${imgUri}" class="col-100"/></input></div>`);
+      $$('.prepre').prepend(`<div class="col-50 auto" id="${Date.now()}">
+      <span class="icon ion-md-close-circle text-align-center closeImg" onClick="deleteImg(${Date.now()},'${imgUri}')"></span>
+      <img src="${imgUri}" class="col-100"/> 
+      </div>`);
       photosPort.push(`${imgUri}`);
   }, function cameraError(error) {
       console.debug("Unable to obtain picture: " + error, "app");
@@ -626,6 +629,12 @@ app.dialog.create({
 }).open();
 };
 
-
+const deleteImg = (del,img) => {
+  $$(`#${del}`).addClass('ocultar');
+  var index = photosPort.indexOf(img);
+  if (index !== -1 ) {
+    photosPort.splice( index, 1 )
+  };
+}
 
 
