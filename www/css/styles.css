@@ -129,8 +129,8 @@
 .navBar {
     background-image: url(../img/icon.png);
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: 50%;
+    background-position: left;
+    background-size: contain;
 }
 .large{
     font-size: large;
@@ -168,6 +168,9 @@
     background-position: center;
     background-color: transparent;
     border: none;
+}
+.bw{
+    background-color: white;
 }
 
 .mb{

@@ -17,14 +17,7 @@
       },
       "*-Info.plist": {
         "parents": {
-          "NSPhotoLibraryUsageDescription": [
-            {
-              "xml": "<string>Necesitamos acceder a tu galería para crear el portfolio</string>",
-              "count": 1,
-              "mode": "merge",
-              "id": "config.xml"
-            }
-          ]
+          "NSPhotoLibraryUsageDescription": []
         }
       }
     }

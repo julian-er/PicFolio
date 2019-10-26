@@ -91,10 +91,9 @@ $$(".swiper-wrapper.categorias").append(`
 <!-- hasta aca-->  
 `);
 
-// para modificar el titulo
+// modify title when blur
 $$(`#t${momentaryId}`).on('blur', function (){dbuser.collection('categorias').doc(`${momentaryId}`).set({'titulo': $$(`#t${momentaryId}`).val()})});
 
-// aca voy a agregar los datos en un variable // 
 categ.push(momentaryId)
   }
         },
@@ -122,9 +121,7 @@ var dbuser; // Acces to user's DB
 
 // this function's help me to use some another functions when i click in somethings buttons
 function ayuda () {
-            // Abrime el dynamic popup
             dynamicPopup.open();
-            // creame las categorias 
             selector(categ);          
 };
 function ayuda2(){
@@ -215,8 +212,12 @@ document.addEventListener('click',function(obj){
       fotos=doc.data().url}     
       )
     .then(()=>{
-      $$('#descripcionpopup').val(descripcion)
-      $$('#titulopopup').val(titulo)
+      $$(`.titulopopup`).attr('id',`T${obj.path[4].id}`);
+      $$(`#T${obj.path[4].id}`).on('blur', function (){dbuser.collection('categorias').doc(`${obj.path[9].id}`).collection('portfolios').doc(`${obj.path[4].id}`).update({'titulo': $$(`#T${obj.path[4].id}`).val()})});
+      $$(`.descripcionpopup`).attr('id',`D${obj.path[4].id}`);
+      $$(`#D${obj.path[4].id}`).on('blur', function (){dbuser.collection('categorias').doc(`${obj.path[9].id}`).collection('portfolios').doc(`${obj.path[4].id}`).update({'descripcion': $$(`#D${obj.path[4].id}`).val()})});
+      $$('.descripcionpopup').val(descripcion)
+      $$('.titulopopup').val(titulo)
       for (i=0 ; i<fotos.length ; i++){
         $$(`#prepreportfolio`).append(`  
         <div class="col-50 auto"><img src="${fotos[i]}" class="col-100" onClick="OpenGalClosePop(${[i]})"/></div>
@@ -432,7 +433,9 @@ function diaLogIn () {
                       <button class="col button button-raised color-black" onClick="login($$('#username').val(),$$('#password').val())">Iniciar Sesión</button>
                     </p>
                     </div>
-                    <p class="text-align-center">Si todavia no estas registrado, <a href="/about/" onClick="app.dialog.close()">registrate acá</a></p>
+                    <p class="text-align-center">Si todavia no estas registrado, <a href="/about/" onClick="app.dialog.close()">registrate acá</a><br>
+                    <a href="/about/" onClick="app.dialog.close()"> Olvidé mi password</a>
+                    </p>
                 </div>`,
     
 
@@ -543,7 +546,7 @@ const createCategories = (Identification,Title) => {
   $$(".swiper-wrapper.categorias").append(`
   <!-- tu append va de aca -->
   <div class="page-content swiper-slide display-flex justify-content-center align-content-center elevation-6 elevation-hover-24 elevation-pressed-12 elevation-transition nopading atributo row" id="${Identification}">
-      <div class="col-100 h100"> 
+      <div class="col-100 h100 bw"> 
                 <div class="row col-100 h20">
                       <div class="col-100 h100 display-flex justify-content-center align-content-center">
                               <input type="text" placeholder="Categoría" id="t${Identification}" class="auto text-align-center col-100 h100 titlee required" value="${Title}" maxlength="17"></input>
@@ -573,9 +576,9 @@ $$(`#t${Identification}`).on('blur', function (){dbuser.collection('categorias')
 }
 
 const createCard = (ulIdentification,liIdentification,titulo,descripcion,url) => {
-// desplega cat tiene que ser el ID del portfolio + #b
-
-  $$((`#b${ulIdentification}`)).append(`
+// desplega cat need be ID portfolio + #b
+ 
+$$((`#b${ulIdentification}`)).append(`
   <li id="${liIdentification}" >
        <div class="item-content row" >
          <div class="item-media portadatarjeta col-20"><img src="${url[0]}" width="100%"/></div>
